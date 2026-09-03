@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111"><title>MINI Trip Planner 1.0</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f5f7;color:#111;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:760px;margin:auto;padding:16px}.top{padding:8px 2px 14px}.k{font-size:12px;color:#666;text-transform:uppercase;letter-spacing:.08em}h1{font-size:27px;margin:3px 0}.muted{color:#666;font-size:13px;line-height:1.4}
+.card{background:#fff;border-radius:20px;padding:17px;margin:12px 0;box-shadow:0 2px 14px #0000000b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.metric{background:#f0f0f2;border-radius:15px;padding:13px}.lab{font-size:12px;color:#666}.num{font-size:23px;font-weight:750;margin-top:3px}
+.bar{height:14px;background:#ddd;border-radius:99px;overflow:hidden;margin:14px 0}.fill{height:100%;background:#21864b;width:100%}
+.stop{padding:15px 0;border-top:1px solid #e5e5e7}.stop:first-of-type{border-top:0}.tag{display:inline-block;padding:5px 9px;border-radius:99px;font-size:11px;font-weight:800;background:#e6f4ea}.tag.b{background:#fff0cf}
+h2{font-size:19px;margin:0 0 10px}h3{margin:5px 0 6px;font-size:17px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+button{border:0;border-radius:12px;padding:11px 14px;font-size:15px;font-weight:700;background:#111;color:#fff}button.alt{background:#e9e9ee;color:#111}
+input,select{width:100%;padding:11px;border:1px solid #ccc;border-radius:12px;font-size:16px;background:#fff}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.notice{background:#fff7d5;border-radius:14px;padding:12px;font-size:13px;line-height:1.4}.ok{font-weight:700}
+#map{height:280px;border-radius:16px;background:#e5e5e7;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;color:#555}
+</style></head><body><main>
+<div class="top"><div class="k">MINI Trip Planner · 1.0</div><h1>Castelnuovo Rangone → Torino</h1><div class="muted">MINI Cooper SE 2022 · 110 km/h · partenza 100%</div></div>
+
+<div class="card"><div class="grid">
+<div class="metric"><div class="lab">Batteria</div><div class="num" id="soc">100%</div></div>
+<div class="metric"><div class="lab">Viaggio</div><div class="num">≈305 km</div></div>
+<div class="metric"><div class="lab">Margine</div><div class="num">20%</div></div>
+<div class="metric"><div class="lab">DC MINI</div><div class="num">max 50 kW</div></div>
+</div><div class="bar"><div class="fill" id="fill"></div></div>
+<div class="actions"><button onclick="updateSoc()">Aggiorna batteria</button><button class="alt" onclick="maps('Torino')">Apri Torino in Maps</button></div></div>
+
+<div class="card"><h2>Quadro viaggio</h2><div id="map">Mappa interattiva da collegare nella prossima integrazione.<br>Qui verranno visualizzati percorso, posizione e soste.</div></div>
+
+<div class="card"><h2>Soste consigliate</h2>
+<div class="stop"><span class="tag">PIANO A</span><h3>Crocetta Sud · A21</h3><div class="muted">CCS Combo 2 · 90 kW · area di servizio. La MINI è limitata a circa 50 kW.</div><p class="ok">Obiettivo: arrivare con ~25–35% e ripartire intorno al 70–75%.</p><div class="actions"><button onclick="maps('Crocetta Sud A21')">Naviga</button></div></div>
+<div class="stop"><span class="tag b">PIANO B</span><h3>Alternative zona Quattordio</h3><div class="muted">Se la sosta A non è disponibile, cercare una stazione CCS alternativa raggiungibile mantenendo il margine del 20%.</div><div class="actions"><button onclick="maps('colonnine ricarica Quattordio')">Cerca alternativa</button></div></div>
+<div class="stop"><span class="tag">PIANO A / B</span><h3>Torino</h3><div class="muted">Selezionare la stazione finale in base alla destinazione effettiva e allo stato più recente disponibile.</div><div class="actions"><button onclick="maps('colonnine ricarica Torino')">Cerca colonnine</button></div></div>
+</div>
+
+<div class="card"><h2>Controllo prima della partenza</h2><div class="notice">Questa versione è pronta come interfaccia e logica di base. La disponibilità live non viene dichiarata automaticamente: Open Charge Map fornisce dati sulle stazioni, ma specifica che lo stato di occupazione dell'apparecchiatura non è live. Per questo il controllo operativo dovrà usare, quando disponibile, la fonte del gestore della rete. </div>
+<ul class="muted"><li>controllare manutenzione e disponibilità;</li><li>verificare CCS;</li><li>mantenere un'alternativa raggiungibile;</li><li>aggiornare il piano se la batteria reale cambia.</li></ul></div>
+</main>
+<script>
+function updateSoc(){let v=prompt("Batteria attuale (%)","100");if(v===null)return;v=Math.max(0,Math.min(100,Number(v)));if(!Number.isFinite(v))return;document.getElementById("soc").textContent=v+"%";document.getElementById("fill").style.width=v+"%";}
+function maps(q){location.href="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);}
+</script></body></html>
