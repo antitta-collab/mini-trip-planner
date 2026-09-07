@@ -2,120 +2,159 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f4f7fb">
-<title>MINI Trip Planner · v1.4</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MINI Trip Planner — Test MINI 50 kW</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-:root{--bg:#f3f6fa;--card:#fff;--text:#101828;--muted:#667085;--line:#e4e7ec;--blue:#1769e0;--blue2:#e8f1ff;--green:#138a52;--green2:#e8f7ef;--orange:#b54708;--orange2:#fff2df;--red:#b42318;--red2:#ffebe9;--dark:#182230}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#f7f9fc 0,#eef3f8 100%);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif}.wrap{max-width:760px;margin:auto;padding:14px 14px 38px}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:5px 0 15px}h1{font-size:24px;line-height:1.1;margin:0;font-weight:800;letter-spacing:-.5px}.sub{color:var(--muted);font-size:13px;margin-top:5px}.version{margin-top:3px;font-weight:700;color:var(--blue)}.carbadge{background:#fff;border:1px solid var(--line);border-radius:16px;padding:9px 11px;font-size:12px;font-weight:750;box-shadow:0 3px 12px #1018280d}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin:11px 0;box-shadow:0 6px 22px #1018280b}.triprow{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:15px}.tripbtn{border:1px solid #d0d5dd;background:#f8fafc;color:var(--text);border-radius:15px;padding:12px 8px;min-height:58px;font-weight:800;cursor:pointer}.tripbtn .small{font-weight:550}.tripbtn.go.active{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 5px 14px #138a5230}.tripbtn.back.active{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 5px 14px #1769e030}.batteryTop{display:flex;align-items:center;gap:15px}.pct{font-size:49px;line-height:1;font-weight:850;letter-spacing:-2px;min-width:119px}.label{font-size:12px;color:var(--muted);font-weight:650}.socbar{height:12px;background:#e9edf2;border-radius:99px;overflow:hidden;margin:8px 0}.socfill{height:100%;width:100%;background:var(--green);transition:width .12s,background .12s}.range{display:block;width:100%;height:35px;accent-color:var(--green);touch-action:pan-x;margin-top:6px}.range:focus{outline:none}.batteryHint{font-size:12px;color:var(--muted);margin-top:2px}.row{display:flex;gap:9px;flex-wrap:wrap}.row>*{flex:1;min-width:140px}button,a.btn{display:inline-flex;justify-content:center;align-items:center;border:0;border-radius:13px;padding:12px 13px;min-height:46px;font-weight:800;text-decoration:none;cursor:pointer;font-size:14px}.btn-green{background:var(--green2);color:var(--green);border:1px solid #bfe8d0!important}.btn-blue{background:var(--blue);color:#fff}.btn-dark{background:var(--dark);color:#fff}.btn-orange{background:var(--orange2);color:var(--orange);border:1px solid #f3d1a7!important}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#f7f9fc;border-radius:15px;padding:12px}.stat .label{font-size:12px}.value{font-size:18px;font-weight:800;margin-top:3px}.routebox{margin-top:11px;border-radius:15px;padding:12px 13px;background:var(--blue2);border:1px solid #cfe0ff}.status{font-weight:800}.status.ok{color:var(--green)}.status.warn{color:var(--orange)}.status.bad{color:var(--red)}.detail{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.4}.sectionHead{display:flex;justify-content:space-between;align-items:center;gap:10px}.sectionHead h2{font-size:18px;margin:0}.tag{font-size:11px;font-weight:800;border-radius:99px;padding:6px 9px;background:#eef2f6;color:#475467;white-space:nowrap}.map{height:340px;border-radius:16px;overflow:hidden;margin-top:11px;background:#e9eef4}.stop{border:1px solid var(--line);border-radius:16px;padding:13px;margin-top:10px}.stopTop{display:flex;justify-content:space-between;gap:8px}.stop h3{margin:0 0 3px;font-size:17px}.meta{color:var(--muted);font-size:12px;line-height:1.4}.stopGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.miniStat{background:#f7f9fc;border-radius:13px;padding:10px}.miniLabel{font-size:11px;color:var(--muted)}.miniValue{font-size:17px;font-weight:800;margin-top:2px}.note{font-size:12px;color:var(--muted);line-height:1.5}.pillline{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.pill{padding:6px 9px;border-radius:99px;font-size:11px;font-weight:800;background:#f2f4f7;color:#475467}.pill.green{background:var(--green2);color:var(--green)}.pill.blue{background:var(--blue2);color:var(--blue)}.pill.orange{background:var(--orange2);color:var(--orange)}.hidden{display:none!important}.footer{font-size:11px;color:#98a2b3;text-align:center;margin-top:17px}@media(max-width:520px){.head{gap:8px}.carbadge{max-width:150px}.pct{font-size:44px;min-width:106px}.map{height:310px}}
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#18202a;background:#f4f5f7}
+*{box-sizing:border-box} body{margin:0}.app{max-width:1180px;margin:auto;padding:20px}
+header{padding:18px 4px 12px}.brand{font-size:28px;font-weight:800}.sub{color:#667085;margin-top:4px}
+.grid{display:grid;grid-template-columns:360px 1fr;gap:18px}
+.card{background:white;border:1px solid #e4e7ec;border-radius:16px;padding:18px;box-shadow:0 4px 18px #00000008}
+h2{font-size:16px;margin:0 0 14px} label{display:block;font-size:13px;font-weight:650;margin:12px 0 6px}
+input,select,button{width:100%;height:42px;border:1px solid #d0d5dd;border-radius:10px;padding:0 12px;font:inherit;background:white}
+button{cursor:pointer;font-weight:750}.primary{background:#18202a;color:white;border-color:#18202a;margin-top:16px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.small{font-size:12px;color:#667085}.status{margin-top:12px;font-size:13px;min-height:18px}
+#map{height:520px;border-radius:14px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.stat{background:#f8f9fb;border-radius:12px;padding:12px}.stat b{display:block;font-size:19px;margin-top:3px}
+.stop{border-top:1px solid #eaecf0;padding:13px 0}.stop:first-child{border-top:0}.stoptitle{font-weight:750}
+.badge{display:inline-block;background:#eef2f6;border-radius:999px;padding:4px 8px;font-size:11px;margin-left:6px}
+.hidden{display:none}@media(max-width:850px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}#map{height:430px}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="head">
-    <div><h1>MINI Trip Planner</h1><div class="sub">Castelnuovo Rangone ↔ Torino</div><div class="version">v1.4 · piano andata e ritorno</div></div>
-    <div class="carbadge">MINI Cooper SE F56<br>2022 · 28,9 kWh</div>
-  </header>
+<div class="app">
+<header><div class="brand">MINI Trip Planner</div><div class="sub">Pianificazione di viaggi elettrici</div></header>
+<div class="grid">
+<section class="card">
+<h2>Viaggio</h2>
+<label>Partenza</label><input id="from" value="Modena, Italia" placeholder="Es. Modena">
+<label>Arrivo</label><input id="to" value="Siena, Italia" placeholder="Es. Siena">
 
-  <section class="card">
-    <div class="triprow">
-      <button id="goBtn" class="tripbtn go active">ANDATA<br><span class="small">Castelnuovo → Torino</span></button>
-      <button id="backBtn" class="tripbtn back">RITORNO<br><span class="small">Torino → Castelnuovo</span></button>
-    </div>
-    <div class="batteryTop">
-      <div class="pct" id="pct">100%</div>
-      <div style="flex:1"><div class="label">BATTERIA ALLA PARTENZA</div><div class="socbar"><div id="fill" class="socfill"></div></div><div class="batteryHint">28,9 kWh utilizzabili · DC max auto ~50 kW</div></div>
-    </div>
-    <input id="soc" class="range" type="range" min="5" max="100" value="100" aria-label="Batteria alla partenza">
-    <div class="row" style="margin-top:9px"><button id="fullBtn" class="btn-green">↻ Partenza 100%</button><button id="recalcBtn" class="btn-blue">⚡ Ricalcola piano</button></div>
-  </section>
-
-  <section class="card">
-    <div class="grid">
-      <div class="stat"><div class="label">PERCORSO REALE</div><div class="value" id="distance">≈306 km</div></div>
-      <div class="stat"><div class="label">VELOCITÀ PIANO</div><div class="value">110 km/h</div></div>
-      <div class="stat"><div class="label">CONSUMO PIANO</div><div class="value">19 kWh/100</div></div>
-      <div class="stat"><div class="label">RISERVA MINIMA</div><div class="value">20%</div></div>
-    </div>
-    <div class="routebox"><div id="routeStatus" class="status ok">Piano pronto</div><div id="routeDetail" class="detail">Modifica la batteria e premi Ricalcola piano.</div></div>
-  </section>
-
-  <section class="card">
-    <div class="sectionHead"><h2>Percorso stradale</h2><span class="tag">OSRM · OpenStreetMap</span></div>
-    <div id="map" class="map"></div>
-    <p class="note">La mappa viene aggiornata in base a <b>ANDATA</b> o <b>RITORNO</b>. Se il servizio di mappa non risponde, il calcolo del piano continua comunque.</p>
-  </section>
-
-  <div id="stops"></div>
-
-  <section class="card">
-    <div class="sectionHead"><h2>Arrivo</h2><span class="tag">Piano completo</span></div>
-    <div class="grid" style="margin-top:10px"><div class="stat"><div class="label" id="finalLabel">ARRIVO A TORINO</div><div class="value" id="arr">26%</div></div><div class="stat"><div class="label">OBIETTIVO</div><div class="value">≥20%</div></div></div>
-    <div class="row" style="margin-top:10px"><button id="finalNav" class="btn-dark">Apri Apple Maps</button></div>
-  </section>
-
-  <section class="card">
-    <div class="sectionHead"><h2>Legenda</h2><span class="tag">semplice</span></div>
-    <div class="pillline"><span class="pill green">ANDATA</span><span class="pill blue">RITORNO</span><span class="pill orange">PIANO B</span><span class="pill">Piano A</span></div>
-    <p class="note">Il calcolo usa 19 kWh/100 km, 20% di riserva e 5% di margine. La disponibilità istantanea delle colonnine non è ancora integrata.</p>
-  </section>
-  <div class="footer">MINI Trip Planner · v1.4</div>
+<h2 style="margin-top:22px">Parametri auto</h2>
+<div class="row">
+<div><label>Batteria netta utilizzabile</label><input id="battery" type="number" value="29" min="1" step=".1"></div>
+<div><label>Consumo autostrada</label><input id="consumption" type="number" value="15" min="1" step=".1"></div>
+</div>
+<div class="row">
+<div><label>Velocità di riferimento</label><input id="speed" type="number" value="110" min="1" step="1"><span class="small">km/h</span></div>
+<div><label>Profilo</label><input value="MINI — 29 kWh / 50 kW DC" disabled></div>
+</div>
+<div class="row">
+<div><label>Carica partenza %</label><input id="startSoc" type="number" value="100" min="1" max="100"></div>
+<div><label>Carica minima arrivo %</label><input id="minSoc" type="number" value="15" min="0" max="90"></div>
 </div>
 
+<h2 style="margin-top:22px">Ricarica</h2>
+<div class="row">
+<div><label>Potenza minima DC (opzionale)</label><input id="minPower" type="number" value="0" min="0" placeholder="0 = qualsiasi"></div>
+<div><label>Potenza max DC auto</label><input id="carMaxPower" type="number" value="50" min="1"><span class="small">kW</span></div></div><div class="row"><div><label>Ricarica target %</label><input id="targetSoc" type="number" value="75" min="1" max="100"></div>
+</div>
+<button class="primary" id="calc">CALCOLA VIAGGIO</button>
+<div class="status" id="status"></div>
+</section>
+
+<section>
+<div class="card"><div id="map"></div>
+<div class="stats">
+<div class="stat">Distanza<b id="distance">—</b></div>
+<div class="stat">Tempo guida<b id="drive">—</b></div>
+<div class="stat">Ricariche<b id="charges">—</b></div>
+<div class="stat">Arrivo<b id="arrival">—</b></div>
+</div></div>
+<div class="card" style="margin-top:18px"><h2>Piano di viaggio</h2><div id="plan" class="small">Inserisci partenza e arrivo e premi “Calcola viaggio”.</div></div>
+</section>
+</div>
+</div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-(function(){
-'use strict';
-const CAR={usable:28.9,cons:19,reserve:20,margin:5};
-const TRIPS={
- go:{start:[10.940,44.551],end:[7.686,45.070],startName:'Castelnuovo Rangone',endName:'Torino',fallback:306,stops:[
-  {name:'Somaglia Est',title:'Free To X · A1',query:'Free To X Somaglia Est, A1, Somaglia',coord:[9.635023,45.142665],km:221,meta:'A1 · direzione Milano · CCS HPC; la MINI assorbe al massimo ~50 kW.'},
-  {name:'Alessandria',title:'CCS · zona Via Vecchia Torino',query:'Via Vecchia Torino 20, Alessandria',coord:[8.590,44.915],km:132,meta:'Zona Alessandria · CCS; la MINI resta limitata a ~50 kW.'}]},
- back:{start:[7.686,45.070],end:[10.940,44.551],startName:'Torino',endName:'Castelnuovo Rangone',fallback:306,stops:[
-  {name:'Alessandria',title:'CCS · zona Via Vecchia Torino',query:'Via Vecchia Torino 20, Alessandria',coord:[8.590,44.915],km:132,meta:'Zona Alessandria · CCS; la MINI resta limitata a ~50 kW.'},
-  {name:'Somaglia Ovest',title:'Free To X · A1',query:'Free To X Somaglia Ovest, A1, Somaglia',coord:[9.633639,45.142268],km:221,meta:'A1 · direzione Bologna · CCS HPC; fermata corretta per il ritorno.'}]}
-};
-let mode='go',map=null,routeLine=null,routeCoords=[],routeKm=306,stopKm=[];
+const map=L.map('map').setView([44.65,10.92],8);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);
+let routeLayer=null, markers=[];
 const $=id=>document.getElementById(id);
-function setSoc(v){v=Math.round(Math.max(5,Math.min(100,Number(v)||100)));$('soc').value=v;$('pct').textContent=v+'%';$('fill').style.width=v+'%';$('fill').style.background=v<=25?'#b42318':v<=45?'#b54708':'#138a52';}
-function appleMaps(q){window.location.href='http://maps.apple.com/?daddr='+encodeURIComponent(q)+'&dirflg=d';}
-function webSearch(q){window.location.href='https://www.google.com/search?q='+encodeURIComponent(q);}
-function pctAfter(soc,km){return soc-(km*CAR.cons/CAR.usable);}
-function targetFor(legKm){return Math.min(100,Math.ceil(CAR.reserve+legKm*CAR.cons/CAR.usable+CAR.margin));}
-function calc(){
- const t=TRIPS[mode],soc0=Number($('soc').value),d1=stopKm[0]??t.stops[0].km,d2=stopKm[1]??t.stops[1].km,total=routeKm||t.fallback;
- const arr1=pctAfter(soc0,d1);const target1=targetFor(d2-d1);const arr2=pctAfter(target1,d2-d1);const target2=targetFor(total-d2);const arrFinal=pctAfter(target2,total-d2);
- $('d0').textContent=Math.round(d1)+' km';$('d1').textContent=Math.round(d2)+' km';$('a0').textContent=Math.round(arr1)+'%';$('t0').textContent=target1+'%';$('e0').textContent=target1+'%';$('a1').textContent=Math.round(arr2)+'%';$('t1').textContent=target2+'%';$('e1').textContent=target2+'%';$('arr').textContent=Math.round(arrFinal)+'%';
- const bad=arr1<CAR.reserve||arr2<CAR.reserve||arrFinal<CAR.reserve;const st=$('routeStatus');st.textContent=bad?'Attenzione: serve una sosta/ricarica anticipata.':'Piano calcolato con riserva + margine.';st.className='status '+(bad?'bad':'ok');$('routeDetail').textContent='Sosta 1 '+Math.round(d1)+' km · sosta 2 '+Math.round(d2)+' km · arrivo '+Math.round(arrFinal)+'%.';
+function clearMap(){if(routeLayer)map.removeLayer(routeLayer);markers.forEach(m=>map.removeLayer(m));markers=[]}
+async function geocode(q){
+ const r=await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&accept-language=it&q='+encodeURIComponent(q));
+ if(!r.ok)throw Error('Errore geocoding');
+ const d=await r.json(); if(!d.length)throw Error('Località non trovata: '+q);
+ return {lat:+d[0].lat,lon:+d[0].lon,name:d[0].display_name};
 }
-function renderStops(){
- const t=TRIPS[mode];
- $('stops').innerHTML=t.stops.map((s,i)=>'<section class="card"><div class="sectionHead"><h2>'+(i+1)+' · '+s.name+'</h2><span class="tag '+(mode==='go'?'':'')+'">PIANO A</span></div><div class="stop"><div class="stopTop"><div><h3>'+s.title+'</h3><div class="meta">'+s.meta+'</div></div><span class="tag">H24</span></div><div class="stopGrid"><div class="miniStat"><div class="miniLabel">DISTANZA</div><div class="miniValue" id="d'+i+'">'+s.km+' km</div></div><div class="miniStat"><div class="miniLabel">ARRIVO PREVISTO</div><div class="miniValue" id="a'+i+'">—</div></div><div class="miniStat"><div class="miniLabel">RICARICA CONSIGLIATA</div><div class="miniValue" id="t'+i+'">—</div></div><div class="miniStat"><div class="miniLabel">PARTENZA DA STOP</div><div class="miniValue" id="e'+i+'">—</div></div></div><div class="row" style="margin-top:9px"><button class="btn-dark navstop" data-q="'+s.query+'">Naviga con Apple Maps</button><button class="btn-orange searchstop" data-q="colonnine CCS '+s.name+'">Piano B</button></div></div></section>').join('');
- document.querySelectorAll('.navstop').forEach(b=>b.addEventListener('click',()=>appleMaps(b.dataset.q)));document.querySelectorAll('.searchstop').forEach(b=>b.addEventListener('click',()=>webSearch(b.dataset.q)));
- $('finalLabel').textContent='ARRIVO A '+t.endName.toUpperCase();$('finalNav').textContent='Apri Apple Maps · '+t.endName;
+async function route(a,b){
+ const u=`https://router.project-osrm.org/route/v1/driving/${a.lon},${a.lat};${b.lon},${b.lat}?overview=full&geometries=geojson`;
+ const r=await fetch(u); if(!r.ok)throw Error('Errore nel calcolo percorso');
+ const d=await r.json(); if(!d.routes?.length)throw Error('Percorso non trovato');
+ return d.routes[0];
 }
-function hav(a,b){const R=6371,la1=a[1]*Math.PI/180,la2=b[1]*Math.PI/180,dla=la2-la1,dlo=(b[0]-a[0])*Math.PI/180,x=Math.sin(dla/2)**2+Math.cos(la1)*Math.cos(la2)*Math.sin(dlo/2)**2;return 2*R*Math.asin(Math.sqrt(x));}
-function cumulative(c){let out=[0],s=0;for(let i=1;i<c.length;i++){s+=hav(c[i-1],c[i]);out.push(s)}return out}
-function nearest(coord,cum){let best=Infinity,idx=0;for(let i=0;i<routeCoords.length;i++){const d=hav(coord,routeCoords[i]);if(d<best){best=d;idx=i}}return cum[idx]}
-async function loadRoute(){
- const t=TRIPS[mode];routeKm=t.fallback;stopKm=t.stops.map(s=>s.km);$('distance').textContent='≈'+t.fallback+' km';
- if(!window.L){calc();return}
+async function chargers(points, minPower){
+ // Query Overpass around the corridor bounding box; then keep points close to route.
+ const lats=points.map(p=>p[1]), lons=points.map(p=>p[0]);
+ const s=Math.max(0,Math.min(...lats)-.12), n=Math.min(90,Math.max(...lats)+.12), w=Math.min(...lons)-.12, e=Math.max(...lons)+.12;
+ const q=`[out:json][timeout:25];(node["amenity"="charging_station"](${s},${w},${n},${e}););out;`;
+ const r=await fetch('https://overpass-api.de/api/interpreter',{method:'POST',body:q});
+ if(!r.ok)return [];
+ const d=await r.json();
+ return d.elements.map(x=>({lat:x.lat,lon:x.lon,tags:x.tags||{}})).map(x=>{
+  const t=x.tags, raw=t.capacity || t["capacity:charging"] || t["capacity:dc"] || "";
+  const vals=String(raw).match(/\\d+(?:[.,]\\d+)?/g)||[];
+  const powers=vals.map(v=>+v.replace(",",".")).filter(v=>v>0&&v<1000);
+  const p=+(t["maxpower"]||t["maxpower:dc"]||t["capacity:kw"]||powers[0]||0);
+  x.power=p; return x;
+}).filter(x=>!minPower || x.power>=minPower);
+}
+function hav(a,b){const R=6371, p=Math.PI/180; const dlat=(b[1]-a[1])*p,dlon=(b[0]-a[0])*p;const x=Math.sin(dlat/2)**2+Math.cos(a[1]*p)*Math.cos(b[1]*p)*Math.sin(dlon/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
+function fmtTime(sec){let m=Math.round(sec/60),h=Math.floor(m/60);m%=60;return h?`${h}h ${m}m`:`${m} min`}
+function nearestDistance(pt, line){let best=1e9;for(const p of line){best=Math.min(best,hav(pt,p))}return best}
+function planStops(totalKm, line, cs, battery, cons, start, min, target, desired){
+ const ordered=cs.map(c=>({c,d:nearestDistance([c.lon,c.lat],line),along:line.reduce((acc,p,i)=>acc+(i?hav(line[i-1],p):0),0)}))
+ .filter(x=>x.d<2.5).sort((a,b)=>a.along-b.along);
+ const stops=[]; let pos=0, soc=start;
+ const reachKm=(fromSoc,toSoc)=>Math.max(0,battery*(fromSoc-toSoc)/100/cons*100);
+ while(totalKm-pos>1){
+   const candidates=ordered.filter(x=>x.along>pos+15 && x.along<=pos+reachKm(soc,min));
+   if(!candidates.length) break;
+   let chosen=null,best=1e9;
+   for(const x of candidates){
+     const km=x.along-pos, arrival=soc-km*cons/battery;
+     const alternatives=ordered.filter(y=>y!==x && y.along>x.along+3 &&
+       (y.along-x.along)<=reachKm(target,min));
+     const powerBonus=x.c.power?Math.min(x.c.power,carMaxPower)/50:0; const score=(alternatives.length?0:1000)+Math.abs(arrival-desired)+Math.max(0,desired-arrival)*2-powerBonus;
+     if(score<best){best=score;chosen={...x,arrival,alternatives};}
+   }
+   const add=Math.max(0,target-chosen.arrival);
+   stops.push({c:chosen.c,km:chosen.along,arrival:chosen.arrival,chargeTo:target,add,
+     safe:chosen.alternatives.length>0,alternatives:chosen.alternatives.length});
+   pos=chosen.along; soc=target;
+   ordered.splice(ordered.indexOf(chosen),1);
+   if(stops.length>20) break;
+ }
+ return {stops,arrivalSoc:soc-(totalKm-pos)*cons/battery};
+}
+async function calculate(){
+ const status=$('status'); status.textContent='Calcolo percorso e ricerca delle stazioni…';
+ $('plan').innerHTML=''; clearMap();
  try{
-  if(!map){map=L.map('map',{zoomControl:true}).setView([44.9,9.2],8);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map)}
-  if(routeLine)map.removeLayer(routeLine);map.eachLayer(l=>{if(l instanceof L.Marker)map.removeLayer(l)});
-  const url='https://router.project-osrm.org/route/v1/driving/'+t.start.join(',')+';'+t.end.join(',')+'?overview=full&geometries=geojson&steps=false';
-  const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('route');const data=await r.json();if(!data.routes||!data.routes.length)throw new Error('route');
-  const rt=data.routes[0];routeKm=rt.distance/1000;routeCoords=rt.geometry.coordinates.map(c=>[c[0],c[1]]);const cum=cumulative(routeCoords);stopKm=t.stops.map(s=>nearest(s.coord,cum));
-  routeLine=L.geoJSON(rt.geometry,{style:{weight:5}}).addTo(map);t.stops.forEach((s,i)=>L.marker([s.coord[1],s.coord[0]]).addTo(map).bindPopup('<b>'+s.name+'</b><br>'+Math.round(stopKm[i])+' km'));L.marker([t.start[1],t.start[0]]).addTo(map).bindPopup('<b>'+t.startName+'</b>');L.marker([t.end[1],t.end[0]]).addTo(map).bindPopup('<b>'+t.endName+'</b>');map.fitBounds(routeLine.getBounds(),{padding:[18,18]});
-  $('distance').textContent='≈'+Math.round(routeKm)+' km';
- }catch(e){$('routeStatus').textContent='Piano locale attivo · mappa non aggiornata';$('routeStatus').className='status warn';$('routeDetail').textContent='Il calcolo delle soste continua con le distanze di riferimento.'}
- calc();
+  const a=await geocode($('from').value), b=await geocode($('to').value);
+  const rt=await route(a,b), totalKm=rt.distance/1000, line=rt.geometry.coordinates.map(p=>[p[1],p[0]]);
+  L.polyline(line,{weight:5}).addTo(map); routeLayer=map._layers[Object.keys(map._layers).pop()];
+  const ma=L.marker([a.lat,a.lon]).addTo(map).bindPopup('Partenza').openPopup();
+  const mb=L.marker([b.lat,b.lon]).addTo(map).bindPopup('Arrivo');markers.push(ma,mb);
+  map.fitBounds(L.latLngBounds(line),{padding:[25,25]});
+  let cs=[];
+  try{cs=await chargers(line,+$('minPower').value)}catch(e){}
+  const battery=+$('battery').value, cons=+$('consumption').value, start=+$('startSoc').value, min=+$('reserveSoc').value, target=+$('targetSoc').value, desired=+$('arrivalSoc').value, carMaxPower=+$('carMaxPower').value, speed=+$('speed').value;
+  const p=planStops(totalKm,line,cs,battery,cons,start,min,target,desired);
+  $('distance').textContent=totalKm.toFixed(0)+' km'; $('drive').textContent=fmtTime(totalKm/speed*3600);
+  $('charges').textContent=p.stops.length; $('arrival').textContent=Math.max(0,p.arrivalSoc).toFixed(0)+'%';
+  const totalEnergy=totalKm*cons/100; let html=`<div><b>${a.name.split(',')[0]} → ${b.name.split(',')[0]}</b></div><div class="small" style="margin-top:6px">Profilo MINI: ${battery} kWh netti · ${cons} kWh/100 km · ${speed} km/h · DC max ${carMaxPower} kW</div><div class="small" style="margin-top:4px">Energia teorica per la tratta: ~${totalEnergy.toFixed(1)} kWh</div>`;
+  if(!p.stops.length) html+=`<p>Nessuna sosta necessaria secondo i parametri impostati. Batteria stimata all'arrivo: <b>${Math.max(0,p.arrivalSoc).toFixed(0)}%</b>.</p>`;
+  else p.stops.forEach((s,i)=>{
+    const name=s.c.tags.name||'Stazione DC'; const operator=s.c.tags.operator||'Operatore non specificato'; const stationPower=s.c.power||0; const usablePower=stationPower?Math.min(stationPower,carMaxPower):carMaxPower; const hours=s.add*usablePower>0?s.add/usablePower:0;
+    const safety=s.safe?'🟢 Alternativa raggiungibile':'🟠 Nessuna alternativa rilevata'; html+=`<div class="stop"><div class="stoptitle">⚡ Ricarica ${i+1} <span class="badge">${name}</span></div><div class="small">${operator} · circa ${s.km.toFixed(0)} km · arrivo ${s.arrival.toFixed(0)}% → ${s.chargeTo}% · ${stationPower?stationPower+' kW colonnina · ':''}${usablePower.toFixed(0)} kW utilizzabili · ~${Math.round(hours*60)} min · ${safety}</div></div>`;
+    const m=L.marker([s.c.lat,s.c.lon]).addTo(map).bindPopup(`<b>${name}</b><br>DC ${stationPower?stationPower+' kW':'potenza non indicata'}<br>Arrivo ~${s.arrival.toFixed(0)}% → ${s.chargeTo}%`);markers.push(m);
+  });
+  $('plan').innerHTML=html; status.textContent=`Test Modena–Siena: ${cs.length} stazioni DC individuate. MINI max ${carMaxPower} kW; obiettivo ${desired}% alla sosta; riserva ${min}%.`;
+ }catch(e){status.textContent=e.message||'Si è verificato un errore.';console.error(e)}
 }
-function switchMode(next){mode=next;const go=mode==='go';$('goBtn').classList.toggle('active',go);$('backBtn').classList.toggle('active',!go);setSoc(100);renderStops();loadRoute();window.scrollTo({top:0,behavior:'smooth'});}
-$('soc').addEventListener('input',e=>{setSoc(e.target.value);calc()});$('fullBtn').addEventListener('click',()=>{setSoc(100);calc()});$('recalcBtn').addEventListener('click',calc);$('goBtn').addEventListener('click',()=>switchMode('go'));$('backBtn').addEventListener('click',()=>switchMode('back'));$('finalNav').addEventListener('click',()=>appleMaps(TRIPS[mode].endName));
-renderStops();setSoc(100);calc();loadRoute();
-})();
+$('calc').onclick=calculate;
 </script>
-</body>
-</html>
+</body></html>
