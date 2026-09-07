@@ -42,13 +42,15 @@ button{cursor:pointer;font-weight:750}.primary{background:#18202a;color:white;bo
 </div>
 <div class="row">
 <div><label>Carica partenza %</label><input id="startSoc" type="number" value="100" min="1" max="100"></div>
-<div><label>Carica minima arrivo %</label><input id="minSoc" type="number" value="15" min="0" max="90"></div>
+<div><label>Riserva minima %</label><input id="reserveSoc" type="number" value="15" min="0" max="90"></div>
 </div>
 
 <h2 style="margin-top:22px">Ricarica</h2>
 <div class="row">
 <div><label>Potenza minima DC (opzionale)</label><input id="minPower" type="number" value="0" min="0" placeholder="0 = qualsiasi"></div>
-<div><label>Potenza max DC auto</label><input id="carMaxPower" type="number" value="50" min="1"><span class="small">kW</span></div></div><div class="row"><div><label>Ricarica target %</label><input id="targetSoc" type="number" value="75" min="1" max="100"></div>
+<div><label>Potenza max DC auto</label><input id="carMaxPower" type="number" value="50" min="1"><span class="small">kW</span></div></div><div class="row">
+<div><label>Arrivo desiderato alla ricarica %</label><input id="arrivalSoc" type="number" value="25" min="1" max="90"><span class="small">Obiettivo: arrivare alla colonnina con margine</span></div>
+<div><label>Ricarica target %</label><input id="targetSoc" type="number" value="75" min="1" max="100"></div>
 </div>
 <button class="primary" id="calc">CALCOLA VIAGGIO</button>
 <div class="status" id="status"></div>
@@ -142,6 +144,7 @@ async function calculate(){
   let cs=[];
   try{cs=await chargers(line,+$('minPower').value)}catch(e){}
   const battery=+$('battery').value, cons=+$('consumption').value, start=+$('startSoc').value, min=+$('reserveSoc').value, target=+$('targetSoc').value, desired=+$('arrivalSoc').value, carMaxPower=+$('carMaxPower').value, speed=+$('speed').value;
+  if(![battery,cons,start,min,target,desired,carMaxPower,speed].every(Number.isFinite)) throw Error('Controlla i parametri dell’auto e della ricarica.');
   const p=planStops(totalKm,line,cs,battery,cons,start,min,target,desired);
   $('distance').textContent=totalKm.toFixed(0)+' km'; $('drive').textContent=fmtTime(totalKm/speed*3600);
   $('charges').textContent=p.stops.length; $('arrival').textContent=Math.max(0,p.arrivalSoc).toFixed(0)+'%';
