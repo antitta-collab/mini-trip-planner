@@ -36,7 +36,7 @@ header{padding:18px 6px 10px}
 .go{display:block;margin-top:10px;width:100%;text-align:center;text-decoration:none;background:var(--blue);color:white;border-radius:12px;padding:10px;font-size:12px;font-weight:900}
 .red .go{background:var(--red)}.green .go{background:var(--green)}.yellow .go{background:var(--yellow);color:#332700}
 .extra{background:white;border:1px solid var(--line);border-radius:18px;padding:14px;margin:4px 0 12px}.extra b{font-size:14px}.note{font-size:12px;color:var(--muted);line-height:1.4;margin:6px 0 0}
-.next{position:sticky;bottom:10px;z-index:5;background:#132238;color:white;border-radius:16px;padding:10px 14px;box-shadow:0 10px 28px #0b1b3a33}.next small{display:block;color:#cbd5e1;font-size:10px;font-weight:800;letter-spacing:.5px}.next strong{font-size:14px}
+.next{position:sticky;bottom:10px;z-index:5;background:#132238;color:white;border-radius:16px;padding:9px 12px;box-shadow:0 10px 28px #0b1b3a33;display:flex;align-items:center;gap:10px}.next-copy{min-width:0;flex:1}.next small{display:block;color:#cbd5e1;font-size:10px;font-weight:800;letter-spacing:.5px}.next strong{font-size:14px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.next button{border:0;background:white;color:#132238;border-radius:10px;padding:8px 10px;font:inherit;font-size:11px;font-weight:900}
 .footer{text-align:center;color:#9aa7b8;font-size:11px;padding:14px}
 @media(max-width:390px){.daybtn{font-size:11px}.daybtn small{font-size:9px}.stop{margin-left:36px}.time{width:45px;flex-basis:45px}}
 </style>
@@ -56,7 +56,7 @@ header{padding:18px 6px 10px}
 </section>
 
 <div id="content"></div>
-<div class="next"><small>PROSSIMA TAPPA</small><strong id="nextText">Seleziona una giornata</strong></div>
+<div class="next"><div class="next-copy"><small>PROSSIMA TAPPA</small><strong id="nextText">Seleziona una giornata</strong></div><button onclick="jumpNext()">VAI</button></div>
 <div class="footer">Vi@ggio · guida personale di viaggio</div>
 </div>
 
@@ -112,22 +112,26 @@ const trip=[
 ["—","Rientro","Buon viaggio.","Berlin, Germany","blue","Fine viaggio",52.5200,13.4050]]}
 ];
 
-let current=0,userPosition=null;
+let current=0,userPosition=null,nextIndex=0;
 
 function renderDays(){
  document.getElementById("days").innerHTML=trip.map((d,i)=>
  `<button class="daybtn ${i===current?"active":""}" onclick="selectDay(${i})">${d.date}<small>${d.dow}</small></button>`).join("");
 }
+
 function updateNext(i){
+ nextIndex=i;
  const x=trip[current].items[i]||trip[current].items[0];
  document.getElementById("nextText").textContent=x?`${x[0]} · ${x[1]}`:"Seleziona una giornata";
 }
+
 function render(){
  const d=trip[current];
  document.getElementById("content").innerHTML=`
  <div class="sectionhead"><h2>${d.title}</h2><div class="weather">☀︎ &nbsp; 12° / 18°</div></div>
+ <div class="note" id="dayStatus" style="margin:0 5px 9px">Piano della giornata</div>
  <div class="timeline">${d.items.map((x,i)=>`
- <article class="stop ${x[4]}">
+ <article class="stop ${x[4]}" id="stop-${i}">
   <span class="dot"></span><div class="row"><div class="time">${x[0]}</div><div class="body">
    <div class="title">${x[1]}</div><div class="desc">${x[2]}</div>
    <span class="tag ${x[4]}">${x[5]}</span>
@@ -139,8 +143,38 @@ function render(){
  ${current===2?`<div class="extra"><b>Serata opzionale</b><p class="note">Festival of Lights in Concert al Berliner Dom. Verificare disponibilità e orari prima di prenotare.</p></div>`:""}
  ${current===3?`<div class="extra"><b>Ultima notte di Festival of Lights</b><p class="note">Il 18 ottobre è l'ultima sera del festival.</p></div>`:""}
  `;
- const first=0;updateNext(first);suggestNow();
+ updateNext(findNextIndex());
+ updateDayStatus();
+ suggestNow();
 }
+
+function findNextIndex(){
+ const now=new Date();
+ const mins=now.getHours()*60+now.getMinutes();
+ const idx=trip[current].items.findIndex(x=>{
+   const m=x[0].match(/^(\d{1,2}):(\d{2})$/);
+   return m && (Number(m[1])*60+Number(m[2]))>=mins;
+ });
+ return idx>=0?idx:trip[current].items.length-1;
+}
+
+function updateDayStatus(){
+ const el=document.getElementById("dayStatus");
+ if(!el)return;
+ const d=trip[current], idx=findNextIndex(), x=d.items[idx];
+ const m=x[0].match(/^(\d{1,2}):(\d{2})$/);
+ if(!m){el.textContent="Giornata di partenza";return;}
+ const now=new Date(), mins=now.getHours()*60+now.getMinutes(), t=Number(m[1])*60+Number(m[2]);
+ if(t-mins<=60 && t>=mins) el.textContent=`Tra poco · ${x[1]} alle ${x[0]}`;
+ else if(t>mins) el.textContent=`Prossimo appuntamento · ${x[0]} · ${x[1]}`;
+ else el.textContent="Giornata quasi conclusa · puoi scegliere liberamente";
+}
+
+function jumpNext(){
+ const el=document.getElementById("stop-"+nextIndex);
+ if(el)el.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
 function selectDay(i){current=i;renderDays();render();window.scrollTo({top:0,behavior:"smooth"});}
 function setNow(main,sub){document.querySelector(".now h2").textContent=main;document.getElementById("nowSub").textContent=sub;}
 function distanceKm(a,b){const R=6371,p=Math.PI/180,dLat=(b.lat-a.lat)*p,dLon=(b.lon-a.lon)*p,x=Math.sin(dLat/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(x));}
@@ -150,12 +184,38 @@ function locateMe(){
  navigator.geolocation.getCurrentPosition(p=>{userPosition={lat:p.coords.latitude,lon:p.coords.longitude};suggestNow();},()=>setNow("POSIZIONE NON AUTORIZZATA","Consenti l'accesso alla posizione nelle impostazioni del browser."),{enableHighAccuracy:true,maximumAge:120000,timeout:10000});
 }
 function suggestNow(){
- if(!userPosition){setNow("COSA FACCIAMO ADESSO?","Usa la tua posizione per ricevere il suggerimento migliore in base a dove sei e al tempo disponibile.");return;}
- const items=trip[current].items.filter(x=>x[6]!==undefined);
- const ranked=items.map(x=>({x,d:distanceKm(userPosition,{lat:x[6],lon:x[7]})})).sort((a,b)=>a.d-b.d);
- if(!ranked.length)return;
- const n=ranked[0];
- setNow(n.d<0.8?`SEI VICINO A ${n.x[1].toUpperCase()}`:`PROSSIMA IDEA: ${n.x[1].toUpperCase()}`,`Circa ${n.d.toFixed(1)} km dalla tua posizione · ${n.x[5]}. Usa PORTAMI QUI per raggiungerla.`);
+ if(!userPosition){
+   setNow("COSA FACCIAMO ADESSO?","Usa la tua posizione per ricevere il suggerimento migliore in base a dove sei e al tempo disponibile.");
+   return;
+ }
+ const d=trip[current];
+ const items=d.items.filter(x=>x[6]!==undefined);
+ if(!items.length)return;
+ const now=new Date(),mins=now.getHours()*60+now.getMinutes();
+ const timed=items.map((x,i)=>{
+   const m=x[0].match(/^(\d{1,2}):(\d{2})$/);
+   const t=m?Number(m[1])*60+Number(m[2]):9999;
+   return {x,i,t,d:distanceKm(userPosition,{lat:x[6],lon:x[7]})};
+ });
+ const upcoming=timed.filter(o=>o.t>=mins).sort((a,b)=>a.t-b.t);
+ const candidate=upcoming[0]||timed.sort((a,b)=>a.d-b.d)[0];
+ const dist=candidate.d;
+ const delta=candidate.t<9999?candidate.t-mins:null;
+ if(current<=3 && mins>=19*60 && mins<23*60){
+   const lights=timed.find(o=>o.x[1].includes("Festival of Lights"));
+   if(lights){
+     setNow("È ORA DI FESTIVAL OF LIGHTS",`La serata è in corso · circa ${lights.d.toFixed(1)} km dalla tua posizione.`);
+     return;
+   }
+ }
+ if(delta!==null && delta>=0 && delta<=45){
+   setNow(`TRA POCO · ${candidate.x[1].toUpperCase()}`,`${candidate.x[0]} · circa ${dist.toFixed(1)} km da te · ${candidate.x[5]}.`);
+ }else if(dist<0.8){
+   setNow(`SEI VICINO A ${candidate.x[1].toUpperCase()}`,`Circa ${dist.toFixed(1)} km · la tappa è prevista alle ${candidate.x[0]}.`);
+ }else{
+   setNow(`PROSSIMA IDEA: ${candidate.x[1].toUpperCase()}`,`${candidate.x[0]} · circa ${dist.toFixed(1)} km da te · ${candidate.x[5]}.`);
+ }
+ updateNext(candidate.i);
 }
 renderDays();render();
 </script>
