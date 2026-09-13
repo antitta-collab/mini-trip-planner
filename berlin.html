@@ -3,178 +3,160 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#f7f9fc">
 <title>Vi@ggio — Berlin 2026</title>
 <style>
-:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#17202a;background:#f4f5f7}
-*{box-sizing:border-box}
-body{margin:0}
-.app{max-width:720px;margin:auto;padding:env(safe-area-inset-top) 14px calc(24px + env(safe-area-inset-bottom))}
-header{padding:18px 4px 12px;position:sticky;top:0;background:#f4f5f7ee;backdrop-filter:blur(14px);z-index:5}
-.brand{font-size:28px;font-weight:850;letter-spacing:-.5px}
-.sub{color:#667085;margin-top:3px;font-size:14px}
-.hero{background:#111827;color:white;border-radius:22px;padding:20px;margin:10px 0 14px}
-.hero h1{font-size:30px;line-height:1.05;margin:0 0 7px}
-.hero p{margin:0;color:#d1d5db}
-.days{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}
-.days::-webkit-scrollbar{display:none}
-.daybtn{flex:0 0 auto;border:0;border-radius:14px;background:white;padding:10px 14px;font:inherit;font-weight:750;color:#475467}
-.daybtn.active{background:#111827;color:white}
-.card{background:white;border:1px solid #e4e7ec;border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:0 3px 14px #00000008}
-.dayhead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.daytitle{font-size:20px;font-weight:820}
-.daydesc{font-size:13px;color:#667085;margin-top:3px}
-.badge{display:inline-block;border-radius:999px;padding:6px 9px;background:#eef2f6;font-size:11px;font-weight:750;white-space:nowrap}
-.timeline{margin-top:10px}
-.stop{position:relative;padding:13px 0 13px 76px;border-top:1px solid #eaecf0}
-.stop:first-child{border-top:0}
-.time{position:absolute;left:0;top:14px;width:58px;font-weight:800;font-size:14px}
-.stop h3{margin:0 0 4px;font-size:16px}
-.stop p{margin:0 0 9px;color:#667085;font-size:13px;line-height:1.35}
-.actions{display:flex;gap:7px}
-a.btn,button.btn{display:inline-flex;align-items:center;justify-content:center;min-height:36px;border-radius:10px;padding:0 11px;text-decoration:none;font:inherit;font-size:12px;font-weight:800;border:1px solid #d0d5dd;background:white;color:#17202a}
-a.go{background:#111827;color:white;border-color:#111827}
-.next{position:sticky;bottom:12px;background:#111827;color:white;border-radius:16px;padding:13px 15px;margin:14px 0;box-shadow:0 8px 30px #0003;z-index:4}
-.next small{display:block;color:#cbd5e1;font-size:11px}
-.next strong{display:block;margin-top:2px;font-size:15px}
-.note{font-size:12px;color:#667085;line-height:1.4}
-.event{border-left:4px solid #111827;padding-left:12px;margin-top:10px}
-.event b{font-size:14px}
-.footer{text-align:center;color:#98a2b3;font-size:11px;padding:12px}
+:root{
+  --blue:#1677ff;--green:#12a150;--red:#ed2b2b;--yellow:#f5b400;
+  --ink:#132238;--muted:#64748b;--bg:#f7f9fc;--line:#e6ebf2;--white:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink)}
+.app{max-width:760px;margin:auto;padding:env(safe-area-inset-top) 14px calc(30px + env(safe-area-inset-bottom))}
+header{padding:18px 6px 10px}
+.brand{font-size:31px;font-weight:900;letter-spacing:-1.2px}.sub{font-size:15px;color:var(--muted);margin-top:3px}
+.hero{background:var(--white);border:1px solid var(--line);border-radius:24px;padding:18px;margin:7px 0 13px;box-shadow:0 8px 28px #0b1b3a0a}
+.hero h1{font-size:31px;margin:0 0 5px;letter-spacing:-.7px}.hero p{margin:0;color:var(--muted);font-size:14px}
+.days{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-bottom:13px}
+.daybtn{border:0;border-radius:15px;background:#eef2f7;color:var(--ink);padding:10px 2px;font:inherit;font-weight:850;font-size:12px;line-height:1.15}
+.daybtn small{display:block;color:var(--muted);font-weight:650;margin-top:3px;font-size:10px}.daybtn.active{background:var(--blue);color:white;box-shadow:0 6px 16px #1677ff33}.daybtn.active small{color:white}
+.now{position:relative;overflow:hidden;background:white;border:1px solid var(--line);border-radius:22px;padding:17px;margin-bottom:15px;box-shadow:0 8px 28px #0b1b3a0a}
+.now:after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;right:-75px;top:-65px;background:#eaf2ff}
+.pin{position:relative;z-index:1;width:45px;height:45px;border-radius:50%;background:var(--green);color:white;display:grid;place-items:center;font-size:23px;float:left;margin-right:12px}
+.now h2{position:relative;z-index:1;font-size:18px;margin:1px 0 5px}.now p{position:relative;z-index:1;margin:0;color:var(--muted);font-size:13px;line-height:1.35}
+.loc{position:relative;z-index:1;margin-top:12px;background:var(--blue);color:white;border:0;border-radius:14px;padding:12px 16px;font:inherit;font-size:13px;font-weight:850}
+.clear{clear:both}
+.sectionhead{display:flex;justify-content:space-between;align-items:end;margin:2px 5px 9px}.sectionhead h2{margin:0;font-size:22px}.weather{font-size:13px;color:var(--muted);font-weight:750}
+.timeline{position:relative}.timeline:before{content:"";position:absolute;left:18px;top:10px;bottom:25px;width:4px;background:#dfe6ef;border-radius:4px}
+.stop{position:relative;margin:0 0 11px 39px;background:white;border:1px solid var(--line);border-radius:19px;padding:14px 13px 14px 14px;box-shadow:0 5px 18px #0b1b3a09}
+.dot{position:absolute;left:-32px;top:18px;width:15px;height:15px;border-radius:50%;border:3px solid white;box-shadow:0 0 0 2px #dfe6ef}
+.red .dot{background:var(--red)}.blue .dot{background:var(--blue)}.green .dot{background:var(--green)}.yellow .dot{background:var(--yellow)}
+.row{display:flex;gap:9px}.time{width:48px;flex:0 0 48px;font-size:13px;font-weight:900;padding-top:2px}.body{min-width:0;flex:1}.title{font-size:17px;font-weight:850;line-height:1.15}.desc{color:var(--muted);font-size:12.5px;line-height:1.35;margin-top:4px}
+.tag{display:inline-block;margin-top:8px;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:850}.tag.red{background:#ffe8e8;color:var(--red)}.tag.blue{background:#e8f1ff;color:var(--blue)}.tag.green{background:#e5f7ec;color:var(--green)}.tag.yellow{background:#fff5cf;color:#9a7000}
+.go{display:block;margin-top:10px;width:100%;text-align:center;text-decoration:none;background:var(--blue);color:white;border-radius:12px;padding:10px;font-size:12px;font-weight:900}
+.red .go{background:var(--red)}.green .go{background:var(--green)}.yellow .go{background:var(--yellow);color:#332700}
+.extra{background:white;border:1px solid var(--line);border-radius:18px;padding:14px;margin:4px 0 12px}.extra b{font-size:14px}.note{font-size:12px;color:var(--muted);line-height:1.4;margin:6px 0 0}
+.next{position:sticky;bottom:10px;z-index:5;background:#132238;color:white;border-radius:16px;padding:10px 14px;box-shadow:0 10px 28px #0b1b3a33}.next small{display:block;color:#cbd5e1;font-size:10px;font-weight:800;letter-spacing:.5px}.next strong{font-size:14px}
+.footer{text-align:center;color:#9aa7b8;font-size:11px;padding:14px}
+@media(max-width:390px){.daybtn{font-size:11px}.daybtn small{font-size:9px}.stop{margin-left:36px}.time{width:45px;flex-basis:45px}}
 </style>
 </head>
 <body>
 <div class="app">
-<header>
-  <div class="brand">Vi@ggio</div>
-  <div class="sub">Berlin · 15–20 ottobre 2026</div>
-</header>
-
-<div class="hero">
-  <h1>Berlin 2026</h1>
-  <p>Guida giornaliera mobile-first · luoghi, tempi e navigazione.</p>
-</div>
-
+<header><div class="brand">Vi@ggio</div><div class="sub">Berlin · 15–20 ottobre 2026</div></header>
+<div class="hero"><h1>Berlin 2026</h1><p>Guida personalizzata · Luoghi, tempi e navigazione</p></div>
 <div class="days" id="days"></div>
+
+<section class="now">
+  <div class="pin">●</div>
+  <h2>COSA FACCIAMO ADESSO?</h2>
+  <p id="nowSub">Usa la tua posizione per ricevere il suggerimento migliore in base a dove sei e al tempo disponibile.</p>
+  <button class="loc" onclick="locateMe()">➤ &nbsp; USA LA MIA POSIZIONE</button>
+  <div class="clear"></div>
+</section>
+
 <div id="content"></div>
-
-<div class="next" id="next">
-  <small>PROSSIMA TAPPA</small>
-  <strong id="nextText">Seleziona una giornata</strong>
-</div>
-
+<div class="next"><small>PROSSIMA TAPPA</small><strong id="nextText">Seleziona una giornata</strong></div>
 <div class="footer">Vi@ggio · guida personale di viaggio</div>
 </div>
 
 <script>
 const maps=q=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);
-
 const trip=[
-{date:"15 OTT",title:"Arrivo + Mitte",desc:"Primo assaggio di Berlino e Festival of Lights",items:[
-["Arrivo","Hotel / deposito bagagli","Sistemazione e breve pausa prima di iniziare.","Hotel"],
-["16:30","Berliner Dom","Passeggiata sull'Isola dei Musei e lungo la Sprea.","Berliner Dom, Berlin"],
-["18:30","Cena a Mitte","Cena comoda prima delle installazioni luminose.","Nikolaiviertel, Berlin"],
-["19:00","Festival of Lights","Prima serata: installazioni luminose nel centro di Berlino.","Berlin Festival of Lights"],
-["20:00","Festival of Lights in Concert","Opzionale: Berliner Dom, Klangkarussell 19:30–20:30 oppure Anja Schneider 21:30–22:30.","Berliner Dom, Berlin"]
-]},
-{date:"16 OTT",title:"Berlino storica",desc:"Porta di Brandeburgo, Reichstag e centro storico",items:[
-["09:00","Brandenburger Tor","Inizio della giornata dal simbolo di Berlino.","Brandenburg Gate, Berlin"],
-["09:30","Reichstag","Cupola gratuita con registrazione anticipata obbligatoria.","Reichstag Building, Berlin"],
-["10:45","Memoriale dell'Olocausto","Passeggiata tra le stele e riflessione sul luogo.","Memorial to the Murdered Jews of Europe, Berlin"],
-["11:30","Potsdamer Platz","Architettura contemporanea e Sony Center.","Potsdamer Platz, Berlin"],
-["12:15","Topography of Terror","Centro di documentazione sul nazismo.","Topography of Terror, Berlin"],
-["13:30","Pranzo","Pausa pranzo in zona Kreuzberg/Mitte.","Berlin"],
-["15:00","Checkpoint Charlie","Uno dei luoghi simbolo della Berlino divisa.","Checkpoint Charlie, Berlin"],
-["15:30","Gendarmenmarkt","Una delle piazze più eleganti della città.","Gendarmenmarkt, Berlin"],
-["16:15","Unter den Linden → Nikolaiviertel","Passeggiata verso il quartiere storico.","Nikolaiviertel, Berlin"],
-["19:00","Festival of Lights","Seconda serata di luci nel centro.","Berlin Festival of Lights"]
-]},
-{date:"17 OTT",title:"Muro + Friedrichshain + Kreuzberg",desc:"East Side Gallery, Sprea e quartieri creativi",items:[
-["10:00","East Side Gallery","Il tratto più famoso del Muro, con i murales lungo la Sprea.","East Side Gallery, Berlin"],
-["11:15","Oberbaumbrücke","Passeggiata sul ponte e vista sulla Sprea.","Oberbaum Bridge, Berlin"],
-["12:00","Friedrichshain","Esplorazione del quartiere e pausa caffè.","Friedrichshain, Berlin"],
-["13:00","Pranzo","Pranzo informale in zona Friedrichshain.","Friedrichshain, Berlin"],
-["14:30","Landwehrkanal","Passeggiata rilassata lungo il canale.","Landwehrkanal, Berlin"],
-["15:30","Viktoriapark","Salita al punto panoramico e cascata.","Viktoriapark, Berlin"],
-["17:00","Kreuzberg / Neukölln","Atmosfera di quartiere, negozi indipendenti e street life.","Kreuzberg, Berlin"],
-["19:00","Festival of Lights","Serata libera tra le installazioni.","Berlin Festival of Lights"],
-["20:00","Festival of Lights in Concert","Opzionale: Berliner Dom, Anja Schneider 20:00–21:00 oppure Chris Bekker & Ukãi Ndame 22:00–23:00.","Berliner Dom, Berlin"]
-]},
-{date:"18 OTT",title:"Musei + Prenzlauer Berg",desc:"Museo, cortili, quartieri e ultima notte di luci",items:[
-["10:00","Neues Museum","Museo dell'Isola dei Musei. Domenica: aperto 10:00–18:00.","Neues Museum, Berlin"],
-["12:30","Hackescher Markt","Arrivo nella zona dei cortili storici.","Hackescher Markt, Berlin"],
-["13:00","Hackesche Höfe","Cortili Art Nouveau, negozi e passaggi.","Hackesche Höfe, Berlin"],
-["13:30","Pranzo","Pausa pranzo in zona Hackescher Markt.","Hackescher Markt, Berlin"],
-["15:00","Prenzlauer Berg","Passeggiata tra strade, caffè e architettura del quartiere.","Prenzlauer Berg, Berlin"],
-["16:30","Mauerpark","Parco e tratto del vecchio Muro.","Mauerpark, Berlin"],
-["19:00","Festival of Lights — ultima notte","Ultima serata utile durante il viaggio.","Berlin Festival of Lights"]
-]},
-{date:"19 OTT",title:"Charlottenburg + Berlino Ovest",desc:"Palazzo, Kurfürstendamm e grande magazzino",items:[
-["10:00","Schloss Charlottenburg","Visita al palazzo e ai giardini.","Charlottenburg Palace, Berlin"],
-["12:00","Kurfürstendamm","Passeggiata lungo il grande boulevard dello shopping.","Kurfürstendamm, Berlin"],
-["12:45","Kaiser-Wilhelm-Gedächtniskirche","La chiesa memoriale con la torre bombardata.","Kaiser Wilhelm Memorial Church, Berlin"],
-["13:30","Pranzo","Pausa pranzo nella zona di City West.","Kurfürstendamm, Berlin"],
-["15:00","KaDeWe","Il grande magazzino storico di Berlino.","KaDeWe, Berlin"],
-["16:00","Tiergarten","Passeggiata nel grande parco centrale.","Tiergarten, Berlin"],
-["17:30","Brandenburg Gate","Eventuale ritorno alla Porta di Brandeburgo al tramonto.","Brandenburg Gate, Berlin"],
-["20:00","Cena finale","Ultima cena berlinese.","Berlin, Germany"]
-]},
-{date:"20 OTT",title:"Partenza",desc:"Mattina tranquilla e rientro",items:[
-["08:00","Colazione","Colazione e ultimi preparativi.","Berlin, Germany"],
-["10:00","Check-out","Partenza dall'hotel e trasferimento verso stazione/aeroporto.","Berlin, Germany"],
-["—","Rientro","Buon viaggio.","Berlin, Germany"]
-]}
+{date:"15",dow:"Gio",title:"Arrivo + Mitte",desc:"Primo assaggio di Berlino e Festival of Lights",items:[
+["16:30","Berliner Dom","Passeggiata sull'Isola dei Musei e lungo la Sprea.","Berliner Dom, Berlin","red","Da non perdere",52.5186,13.4010],
+["18:30","Cena a Mitte","Cena comoda prima delle installazioni luminose.","Nikolaiviertel, Berlin","green","Consigliato",52.5165,13.4050],
+["19:00","Festival of Lights","Prima tappa tra le installazioni più iconiche.","Berlin Festival of Lights","blue","Evento speciale",52.5163,13.3777],
+["20:00","Festival of Lights in Concert","Opzionale: Berliner Dom · Klangkarussell 19:30–20:30 o Anja Schneider 21:30–22:30.","Berliner Dom, Berlin","yellow","Serata speciale",52.5186,13.4010]]},
+{date:"16",dow:"Ven",title:"Berlino storica",desc:"Porta di Brandeburgo, Reichstag e centro storico",items:[
+["09:00","Brandenburger Tor","Inizio della giornata dal simbolo di Berlino.","Brandenburg Gate, Berlin","red","Da non perdere",52.5163,13.3777],
+["09:30","Reichstag","Cupola gratuita con registrazione anticipata obbligatoria.","Reichstag Building, Berlin","red","Prenotazione",52.5186,13.3762],
+["10:45","Memoriale dell'Olocausto","Passeggiata tra le stele e riflessione sul luogo.","Memorial to the Murdered Jews of Europe, Berlin","blue","Storia",52.5138,13.3789],
+["11:30","Potsdamer Platz","Architettura contemporanea e Sony Center.","Potsdamer Platz, Berlin","blue","Passeggiata",52.5096,13.3760],
+["12:15","Topography of Terror","Centro di documentazione sul nazismo.","Topography of Terror, Berlin","red","Da vedere",52.5068,13.3828],
+["13:30","Pranzo","Pausa pranzo in zona Kreuzberg/Mitte.","Berlin, Germany","green","Pausa",52.5070,13.3900],
+["15:00","Checkpoint Charlie","Uno dei luoghi simbolo della Berlino divisa.","Checkpoint Charlie, Berlin","yellow","Curiosità",52.5076,13.3904],
+["15:30","Gendarmenmarkt","Una delle piazze più eleganti della città.","Gendarmenmarkt, Berlin","blue","Passeggiata",52.5136,13.3928],
+["16:15","Unter den Linden → Nikolaiviertel","Passeggiata verso il quartiere storico.","Nikolaiviertel, Berlin","green","Relax",52.5165,13.4050],
+["19:00","Festival of Lights","Seconda serata di luci nel centro.","Berlin Festival of Lights","blue","Evento speciale",52.5163,13.3777]]},
+{date:"17",dow:"Sab",title:"Muro + Friedrichshain + Kreuzberg",desc:"East Side Gallery, Sprea e quartieri creativi",items:[
+["10:00","East Side Gallery","Il tratto più famoso del Muro, con i murales lungo la Sprea.","East Side Gallery, Berlin","red","Da non perdere",52.5050,13.4397],
+["11:15","Oberbaumbrücke","Passeggiata sul ponte e vista sulla Sprea.","Oberbaum Bridge, Berlin","blue","Foto",52.5015,13.4450],
+["12:00","Friedrichshain","Esplorazione del quartiere e pausa caffè.","Friedrichshain, Berlin","green","Quartiere",52.5150,13.4550],
+["13:00","Pranzo","Pranzo informale in zona Friedrichshain.","Friedrichshain, Berlin","green","Pausa",52.5150,13.4550],
+["14:30","Landwehrkanal","Passeggiata rilassata lungo il canale.","Landwehrkanal, Berlin","blue","Relax",52.4945,13.4330],
+["15:30","Viktoriapark","Salita al punto panoramico e cascata.","Viktoriapark, Berlin","yellow","Panorama",52.4889,13.3829],
+["17:00","Kreuzberg / Neukölln","Atmosfera di quartiere, negozi indipendenti e street life.","Kreuzberg, Berlin","green","Da vivere",52.4976,13.4036],
+["19:00","Festival of Lights","Serata libera tra le installazioni.","Berlin Festival of Lights","blue","Evento speciale",52.5163,13.3777],
+["20:00","Festival of Lights in Concert","Opzionale: Berliner Dom · Anja Schneider 20:00–21:00 o Chris Bekker & Ukãi Ndame 22:00–23:00.","Berliner Dom, Berlin","yellow","Serata speciale",52.5186,13.4010]]},
+{date:"18",dow:"Dom",title:"Musei + Prenzlauer Berg",desc:"Museo, cortili, quartieri e ultima notte di luci",items:[
+["10:00","Neues Museum","Museo dell'Isola dei Musei. Domenica: aperto 10:00–18:00.","Neues Museum, Berlin","red","Da non perdere",52.5208,13.3970],
+["12:30","Hackescher Markt","Arrivo nella zona dei cortili storici.","Hackescher Markt, Berlin","blue","Passeggiata",52.5227,13.4028],
+["13:00","Hackesche Höfe","Cortili Art Nouveau, negozi e passaggi.","Hackesche Höfe, Berlin","yellow","Architettura",52.5227,13.4022],
+["13:30","Pranzo","Pausa pranzo in zona Hackescher Markt.","Hackescher Markt, Berlin","green","Pausa",52.5227,13.4028],
+["15:00","Prenzlauer Berg","Passeggiata tra strade, caffè e architettura del quartiere.","Prenzlauer Berg, Berlin","green","Quartiere",52.5380,13.4230],
+["16:30","Mauerpark","Parco e tratto del vecchio Muro.","Mauerpark, Berlin","blue","Passeggiata",52.5428,13.4030],
+["19:00","Festival of Lights — ultima notte","Ultima serata utile durante il viaggio.","Berlin Festival of Lights","yellow","Ultima notte",52.5163,13.3777]]},
+{date:"19",dow:"Lun",title:"Charlottenburg + Berlino Ovest",desc:"Palazzo, Kurfürstendamm e grande magazzino",items:[
+["10:00","Schloss Charlottenburg","Visita al palazzo e ai giardini.","Charlottenburg Palace, Berlin","red","Da non perdere",52.5208,13.2950],
+["12:00","Kurfürstendamm","Passeggiata lungo il grande boulevard dello shopping.","Kurfürstendamm, Berlin","blue","Shopping",52.5030,13.3300],
+["12:45","Kaiser-Wilhelm-Gedächtniskirche","La chiesa memoriale con la torre bombardata.","Kaiser Wilhelm Memorial Church, Berlin","red","Da vedere",52.5048,13.3354],
+["13:30","Pranzo","Pausa pranzo nella zona di City West.","Kurfürstendamm, Berlin","green","Pausa",52.5030,13.3300],
+["15:00","KaDeWe","Il grande magazzino storico di Berlino.","KaDeWe, Berlin","yellow","Shopping",52.5030,13.3400],
+["16:00","Tiergarten","Passeggiata nel grande parco centrale.","Tiergarten, Berlin","green","Relax",52.5145,13.3500],
+["17:30","Brandenburg Gate","Eventuale ritorno alla Porta di Brandeburgo al tramonto.","Brandenburg Gate, Berlin","blue","Tramonto",52.5163,13.3777],
+["20:00","Cena finale","Ultima cena berlinese.","Berlin, Germany","green","Ultima sera",52.5200,13.4050]]},
+{date:"20",dow:"Mar",title:"Partenza",desc:"Mattina tranquilla e rientro",items:[
+["08:00","Colazione","Colazione e ultimi preparativi.","Berlin, Germany","green","Mattina",52.5200,13.4050],
+["10:00","Check-out","Partenza dall'hotel e trasferimento verso stazione/aeroporto.","Berlin, Germany","blue","Partenza",52.5200,13.4050],
+["—","Rientro","Buon viaggio.","Berlin, Germany","blue","Fine viaggio",52.5200,13.4050]]}
 ];
 
-let current=0;
+let current=0,userPosition=null;
 
 function renderDays(){
-  document.getElementById("days").innerHTML=trip.map((d,i)=>
-    `<button class="daybtn ${i===current?'active':''}" onclick="selectDay(${i})">${d.date}</button>`
-  ).join("");
+ document.getElementById("days").innerHTML=trip.map((d,i)=>
+ `<button class="daybtn ${i===current?"active":""}" onclick="selectDay(${i})">${d.date}<small>${d.dow}</small></button>`).join("");
 }
-
-function render(){
-  const d=trip[current];
-  const content=document.getElementById("content");
-  content.innerHTML=`
-  <section class="card">
-    <div class="dayhead">
-      <div><div class="daytitle">${d.title}</div><div class="daydesc">${d.desc}</div></div>
-      <span class="badge">${d.items.length} TAPPE</span>
-    </div>
-    <div class="timeline">
-      ${d.items.map((x,i)=>`
-        <article class="stop">
-          <div class="time">${x[0]}</div>
-          <h3>${x[1]}</h3>
-          <p>${x[2]}</p>
-          <div class="actions">
-            <a class="btn go" target="_blank" rel="noopener" href="${maps(x[3])}">PORTAMI QUI</a>
-            ${i<d.items.length-1?`<button class="btn" onclick="setNext(${i+1})">PROSSIMA</button>`:""}
-          </div>
-        </article>`).join("")}
-    </div>
-  </section>
-  ${current===0?`<section class="card">
-    <b>Festival of Lights 2026</b>
-    <div class="event"><b>15–18 ottobre</b><br><span class="note">Le installazioni sono previste dalle 19:00 alle 23:00. L'evento è gratuito.</span></div>
-    <p class="note">Le date del viaggio coincidono con gli ultimi quattro giorni del festival.</p>
-  </section>`:""}
-  ${current===1?`<section class="card"><b>Prenotazione importante</b><p class="note">Per la cupola del Reichstag l'ingresso è gratuito, ma è necessaria la registrazione anticipata. Conviene prenotare prima del viaggio.</p></section>`:""}
-  ${current===2?`<section class="card"><b>Serata opzionale</b><p class="note">Il 17 ottobre è disponibile anche Festival of Lights in Concert al Berliner Dom. Verificare disponibilità e orari prima di prenotare.</p></section>`:""}
-  ${current===3?`<section class="card"><b>Ultima notte di Festival of Lights</b><p class="note">Il 18 ottobre è l'ultima sera del festival. Ideale per tenere la serata più libera e scegliere le installazioni preferite.</p></section>`:""}
-  `;
-  updateNext(0);
-}
-
 function updateNext(i){
-  const d=trip[current], x=d.items[i]||d.items[0];
-  document.getElementById("nextText").textContent=(x?`${x[0]} · ${x[1]}`:"Seleziona una giornata");
+ const x=trip[current].items[i]||trip[current].items[0];
+ document.getElementById("nextText").textContent=x?`${x[0]} · ${x[1]}`:"Seleziona una giornata";
 }
-function setNext(i){updateNext(i);window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});}
+function render(){
+ const d=trip[current];
+ document.getElementById("content").innerHTML=`
+ <div class="sectionhead"><h2>${d.title}</h2><div class="weather">☀︎ &nbsp; 12° / 18°</div></div>
+ <div class="timeline">${d.items.map((x,i)=>`
+ <article class="stop ${x[4]}">
+  <span class="dot"></span><div class="row"><div class="time">${x[0]}</div><div class="body">
+   <div class="title">${x[1]}</div><div class="desc">${x[2]}</div>
+   <span class="tag ${x[4]}">${x[5]}</span>
+   <a class="go" target="_blank" rel="noopener" href="${maps(x[3])}">➤ &nbsp; PORTAMI QUI</a>
+  </div></div>
+ </article>`).join("")}</div>
+ ${current===0?`<div class="extra"><b>Festival of Lights 2026</b><p class="note">15–18 ottobre · installazioni previste 19:00–23:00 · evento gratuito.</p></div>`:""}
+ ${current===1?`<div class="extra"><b>Prenotazione importante</b><p class="note">La cupola del Reichstag è gratuita, ma richiede registrazione anticipata.</p></div>`:""}
+ ${current===2?`<div class="extra"><b>Serata opzionale</b><p class="note">Festival of Lights in Concert al Berliner Dom. Verificare disponibilità e orari prima di prenotare.</p></div>`:""}
+ ${current===3?`<div class="extra"><b>Ultima notte di Festival of Lights</b><p class="note">Il 18 ottobre è l'ultima sera del festival.</p></div>`:""}
+ `;
+ const first=0;updateNext(first);suggestNow();
+}
 function selectDay(i){current=i;renderDays();render();window.scrollTo({top:0,behavior:"smooth"});}
-
+function setNow(main,sub){document.querySelector(".now h2").textContent=main;document.getElementById("nowSub").textContent=sub;}
+function distanceKm(a,b){const R=6371,p=Math.PI/180,dLat=(b.lat-a.lat)*p,dLon=(b.lon-a.lon)*p,x=Math.sin(dLat/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(x));}
+function locateMe(){
+ if(!navigator.geolocation){setNow("POSIZIONE NON DISPONIBILE","Apri la guida direttamente in Safari per usare la geolocalizzazione.");return;}
+ setNow("CERCO LA TUA POSIZIONE…","Attendi un momento.");
+ navigator.geolocation.getCurrentPosition(p=>{userPosition={lat:p.coords.latitude,lon:p.coords.longitude};suggestNow();},()=>setNow("POSIZIONE NON AUTORIZZATA","Consenti l'accesso alla posizione nelle impostazioni del browser."),{enableHighAccuracy:true,maximumAge:120000,timeout:10000});
+}
+function suggestNow(){
+ if(!userPosition){setNow("COSA FACCIAMO ADESSO?","Usa la tua posizione per ricevere il suggerimento migliore in base a dove sei e al tempo disponibile.");return;}
+ const items=trip[current].items.filter(x=>x[6]!==undefined);
+ const ranked=items.map(x=>({x,d:distanceKm(userPosition,{lat:x[6],lon:x[7]})})).sort((a,b)=>a.d-b.d);
+ if(!ranked.length)return;
+ const n=ranked[0];
+ setNow(n.d<0.8?`SEI VICINO A ${n.x[1].toUpperCase()}`:`PROSSIMA IDEA: ${n.x[1].toUpperCase()}`,`Circa ${n.d.toFixed(1)} km dalla tua posizione · ${n.x[5]}. Usa PORTAMI QUI per raggiungerla.`);
+}
 renderDays();render();
 </script>
 </body>
