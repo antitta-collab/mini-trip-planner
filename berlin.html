@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<title>Vi@ggio — Berlin 2026</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#17202a;background:#f4f5f7}
+*{box-sizing:border-box}
+body{margin:0}
+.app{max-width:720px;margin:auto;padding:env(safe-area-inset-top) 14px calc(24px + env(safe-area-inset-bottom))}
+header{padding:18px 4px 12px;position:sticky;top:0;background:#f4f5f7ee;backdrop-filter:blur(14px);z-index:5}
+.brand{font-size:28px;font-weight:850;letter-spacing:-.5px}
+.sub{color:#667085;margin-top:3px;font-size:14px}
+.hero{background:#111827;color:white;border-radius:22px;padding:20px;margin:10px 0 14px}
+.hero h1{font-size:30px;line-height:1.05;margin:0 0 7px}
+.hero p{margin:0;color:#d1d5db}
+.days{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.daybtn{flex:0 0 auto;border:0;border-radius:14px;background:white;padding:10px 14px;font:inherit;font-weight:750;color:#475467}
+.daybtn.active{background:#111827;color:white}
+.card{background:white;border:1px solid #e4e7ec;border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:0 3px 14px #00000008}
+.dayhead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.daytitle{font-size:20px;font-weight:820}
+.daydesc{font-size:13px;color:#667085;margin-top:3px}
+.badge{display:inline-block;border-radius:999px;padding:6px 9px;background:#eef2f6;font-size:11px;font-weight:750;white-space:nowrap}
+.timeline{margin-top:10px}
+.stop{position:relative;padding:13px 0 13px 76px;border-top:1px solid #eaecf0}
+.stop:first-child{border-top:0}
+.time{position:absolute;left:0;top:14px;width:58px;font-weight:800;font-size:14px}
+.stop h3{margin:0 0 4px;font-size:16px}
+.stop p{margin:0 0 9px;color:#667085;font-size:13px;line-height:1.35}
+.actions{display:flex;gap:7px}
+a.btn,button.btn{display:inline-flex;align-items:center;justify-content:center;min-height:36px;border-radius:10px;padding:0 11px;text-decoration:none;font:inherit;font-size:12px;font-weight:800;border:1px solid #d0d5dd;background:white;color:#17202a}
+a.go{background:#111827;color:white;border-color:#111827}
+.next{position:sticky;bottom:12px;background:#111827;color:white;border-radius:16px;padding:13px 15px;margin:14px 0;box-shadow:0 8px 30px #0003;z-index:4}
+.next small{display:block;color:#cbd5e1;font-size:11px}
+.next strong{display:block;margin-top:2px;font-size:15px}
+.note{font-size:12px;color:#667085;line-height:1.4}
+.event{border-left:4px solid #111827;padding-left:12px;margin-top:10px}
+.event b{font-size:14px}
+.footer{text-align:center;color:#98a2b3;font-size:11px;padding:12px}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand">Vi@ggio</div>
+  <div class="sub">Berlin · 15–20 ottobre 2026</div>
+</header>
+
+<div class="hero">
+  <h1>Berlin 2026</h1>
+  <p>Guida giornaliera mobile-first · luoghi, tempi e navigazione.</p>
+</div>
+
+<div class="days" id="days"></div>
+<div id="content"></div>
+
+<div class="next" id="next">
+  <small>PROSSIMA TAPPA</small>
+  <strong id="nextText">Seleziona una giornata</strong>
+</div>
+
+<div class="footer">Vi@ggio · guida personale di viaggio</div>
+</div>
+
+<script>
+const maps=q=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);
+
+const trip=[
+{date:"15 OTT",title:"Arrivo + Mitte",desc:"Primo assaggio di Berlino e Festival of Lights",items:[
+["Arrivo","Hotel / deposito bagagli","Sistemazione e breve pausa prima di iniziare.","Hotel"],
+["16:30","Berliner Dom","Passeggiata sull'Isola dei Musei e lungo la Sprea.","Berliner Dom, Berlin"],
+["18:30","Cena a Mitte","Cena comoda prima delle installazioni luminose.","Nikolaiviertel, Berlin"],
+["19:00","Festival of Lights","Prima serata: installazioni luminose nel centro di Berlino.","Berlin Festival of Lights"],
+["20:00","Festival of Lights in Concert","Opzionale: Berliner Dom, Klangkarussell 19:30–20:30 oppure Anja Schneider 21:30–22:30.","Berliner Dom, Berlin"]
+]},
+{date:"16 OTT",title:"Berlino storica",desc:"Porta di Brandeburgo, Reichstag e centro storico",items:[
+["09:00","Brandenburger Tor","Inizio della giornata dal simbolo di Berlino.","Brandenburg Gate, Berlin"],
+["09:30","Reichstag","Cupola gratuita con registrazione anticipata obbligatoria.","Reichstag Building, Berlin"],
+["10:45","Memoriale dell'Olocausto","Passeggiata tra le stele e riflessione sul luogo.","Memorial to the Murdered Jews of Europe, Berlin"],
+["11:30","Potsdamer Platz","Architettura contemporanea e Sony Center.","Potsdamer Platz, Berlin"],
+["12:15","Topography of Terror","Centro di documentazione sul nazismo.","Topography of Terror, Berlin"],
+["13:30","Pranzo","Pausa pranzo in zona Kreuzberg/Mitte.","Berlin"],
+["15:00","Checkpoint Charlie","Uno dei luoghi simbolo della Berlino divisa.","Checkpoint Charlie, Berlin"],
+["15:30","Gendarmenmarkt","Una delle piazze più eleganti della città.","Gendarmenmarkt, Berlin"],
+["16:15","Unter den Linden → Nikolaiviertel","Passeggiata verso il quartiere storico.","Nikolaiviertel, Berlin"],
+["19:00","Festival of Lights","Seconda serata di luci nel centro.","Berlin Festival of Lights"]
+]},
+{date:"17 OTT",title:"Muro + Friedrichshain + Kreuzberg",desc:"East Side Gallery, Sprea e quartieri creativi",items:[
+["10:00","East Side Gallery","Il tratto più famoso del Muro, con i murales lungo la Sprea.","East Side Gallery, Berlin"],
+["11:15","Oberbaumbrücke","Passeggiata sul ponte e vista sulla Sprea.","Oberbaum Bridge, Berlin"],
+["12:00","Friedrichshain","Esplorazione del quartiere e pausa caffè.","Friedrichshain, Berlin"],
+["13:00","Pranzo","Pranzo informale in zona Friedrichshain.","Friedrichshain, Berlin"],
+["14:30","Landwehrkanal","Passeggiata rilassata lungo il canale.","Landwehrkanal, Berlin"],
+["15:30","Viktoriapark","Salita al punto panoramico e cascata.","Viktoriapark, Berlin"],
+["17:00","Kreuzberg / Neukölln","Atmosfera di quartiere, negozi indipendenti e street life.","Kreuzberg, Berlin"],
+["19:00","Festival of Lights","Serata libera tra le installazioni.","Berlin Festival of Lights"],
+["20:00","Festival of Lights in Concert","Opzionale: Berliner Dom, Anja Schneider 20:00–21:00 oppure Chris Bekker & Ukãi Ndame 22:00–23:00.","Berliner Dom, Berlin"]
+]},
+{date:"18 OTT",title:"Musei + Prenzlauer Berg",desc:"Museo, cortili, quartieri e ultima notte di luci",items:[
+["10:00","Neues Museum","Museo dell'Isola dei Musei. Domenica: aperto 10:00–18:00.","Neues Museum, Berlin"],
+["12:30","Hackescher Markt","Arrivo nella zona dei cortili storici.","Hackescher Markt, Berlin"],
+["13:00","Hackesche Höfe","Cortili Art Nouveau, negozi e passaggi.","Hackesche Höfe, Berlin"],
+["13:30","Pranzo","Pausa pranzo in zona Hackescher Markt.","Hackescher Markt, Berlin"],
+["15:00","Prenzlauer Berg","Passeggiata tra strade, caffè e architettura del quartiere.","Prenzlauer Berg, Berlin"],
+["16:30","Mauerpark","Parco e tratto del vecchio Muro.","Mauerpark, Berlin"],
+["19:00","Festival of Lights — ultima notte","Ultima serata utile durante il viaggio.","Berlin Festival of Lights"]
+]},
+{date:"19 OTT",title:"Charlottenburg + Berlino Ovest",desc:"Palazzo, Kurfürstendamm e grande magazzino",items:[
+["10:00","Schloss Charlottenburg","Visita al palazzo e ai giardini.","Charlottenburg Palace, Berlin"],
+["12:00","Kurfürstendamm","Passeggiata lungo il grande boulevard dello shopping.","Kurfürstendamm, Berlin"],
+["12:45","Kaiser-Wilhelm-Gedächtniskirche","La chiesa memoriale con la torre bombardata.","Kaiser Wilhelm Memorial Church, Berlin"],
+["13:30","Pranzo","Pausa pranzo nella zona di City West.","Kurfürstendamm, Berlin"],
+["15:00","KaDeWe","Il grande magazzino storico di Berlino.","KaDeWe, Berlin"],
+["16:00","Tiergarten","Passeggiata nel grande parco centrale.","Tiergarten, Berlin"],
+["17:30","Brandenburg Gate","Eventuale ritorno alla Porta di Brandeburgo al tramonto.","Brandenburg Gate, Berlin"],
+["20:00","Cena finale","Ultima cena berlinese.","Berlin, Germany"]
+]},
+{date:"20 OTT",title:"Partenza",desc:"Mattina tranquilla e rientro",items:[
+["08:00","Colazione","Colazione e ultimi preparativi.","Berlin, Germany"],
+["10:00","Check-out","Partenza dall'hotel e trasferimento verso stazione/aeroporto.","Berlin, Germany"],
+["—","Rientro","Buon viaggio.","Berlin, Germany"]
+]}
+];
+
+let current=0;
+
+function renderDays(){
+  document.getElementById("days").innerHTML=trip.map((d,i)=>
+    `<button class="daybtn ${i===current?'active':''}" onclick="selectDay(${i})">${d.date}</button>`
+  ).join("");
+}
+
+function render(){
+  const d=trip[current];
+  const content=document.getElementById("content");
+  content.innerHTML=`
+  <section class="card">
+    <div class="dayhead">
+      <div><div class="daytitle">${d.title}</div><div class="daydesc">${d.desc}</div></div>
+      <span class="badge">${d.items.length} TAPPE</span>
+    </div>
+    <div class="timeline">
+      ${d.items.map((x,i)=>`
+        <article class="stop">
+          <div class="time">${x[0]}</div>
+          <h3>${x[1]}</h3>
+          <p>${x[2]}</p>
+          <div class="actions">
+            <a class="btn go" target="_blank" rel="noopener" href="${maps(x[3])}">PORTAMI QUI</a>
+            ${i<d.items.length-1?`<button class="btn" onclick="setNext(${i+1})">PROSSIMA</button>`:""}
+          </div>
+        </article>`).join("")}
+    </div>
+  </section>
+  ${current===0?`<section class="card">
+    <b>Festival of Lights 2026</b>
+    <div class="event"><b>15–18 ottobre</b><br><span class="note">Le installazioni sono previste dalle 19:00 alle 23:00. L'evento è gratuito.</span></div>
+    <p class="note">Le date del viaggio coincidono con gli ultimi quattro giorni del festival.</p>
+  </section>`:""}
+  ${current===1?`<section class="card"><b>Prenotazione importante</b><p class="note">Per la cupola del Reichstag l'ingresso è gratuito, ma è necessaria la registrazione anticipata. Conviene prenotare prima del viaggio.</p></section>`:""}
+  ${current===2?`<section class="card"><b>Serata opzionale</b><p class="note">Il 17 ottobre è disponibile anche Festival of Lights in Concert al Berliner Dom. Verificare disponibilità e orari prima di prenotare.</p></section>`:""}
+  ${current===3?`<section class="card"><b>Ultima notte di Festival of Lights</b><p class="note">Il 18 ottobre è l'ultima sera del festival. Ideale per tenere la serata più libera e scegliere le installazioni preferite.</p></section>`:""}
+  `;
+  updateNext(0);
+}
+
+function updateNext(i){
+  const d=trip[current], x=d.items[i]||d.items[0];
+  document.getElementById("nextText").textContent=(x?`${x[0]} · ${x[1]}`:"Seleziona una giornata");
+}
+function setNext(i){updateNext(i);window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});}
+function selectDay(i){current=i;renderDays();render();window.scrollTo({top:0,behavior:"smooth"});}
+
+renderDays();render();
+</script>
+</body>
+</html>
