@@ -1,31 +1,163 @@
 <!doctype html>
-<html lang="it"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f2f2f7"><link rel="manifest" href="manifest.json"><title>Portafoglio figlia</title>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MINI Trip Planner — Test MINI 50 kW</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-:root{--bg:#f2f2f7;--card:#fff;--text:#1c1c1e;--muted:#8e8e93;--line:#e5e5ea;--blue:#007aff;--green:#34c759;--red:#ff3b30}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",system-ui,sans-serif;color:var(--text)}main{max-width:760px;margin:auto;padding:18px 16px 32px}.nav{display:flex;justify-content:space-between;align-items:center;margin:2px 2px 18px}.title{font-size:29px;font-weight:750;letter-spacing:-.8px}.sub{font-size:13px;color:var(--muted);margin-top:2px}.round{width:40px;height:40px;border:0;border-radius:50%;background:#fff;color:var(--blue);font-size:22px}.hero,.form,.historycard,.list,.account{background:var(--card);border-radius:22px}.hero{padding:21px 20px;margin-bottom:18px}.eyebrow,.label{font-size:13px;color:var(--muted)}.big{font-size:36px;font-weight:750;letter-spacing:-1.3px;margin-top:4px}.gain{font-size:16px;font-weight:600;margin-top:4px}.positive{color:var(--green)}.negative{color:var(--red)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}.stat{background:#f2f2f7;border-radius:14px;padding:11px}.stat b{display:block;font-size:14px;margin-top:3px}.section{margin-top:20px}.sectionhead{display:flex;justify-content:space-between;align-items:center;padding:0 3px 8px}.sectiontitle{font-size:19px;font-weight:700}.count{font-size:13px;color:var(--muted)}.asset{padding:15px 16px;border-bottom:1px solid var(--line)}.asset:last-child{border-bottom:0}.assetmain{display:flex;align-items:center;gap:12px}.icon{width:42px;height:42px;border-radius:12px;background:#e9f2ff;color:var(--blue);display:grid;place-items:center;font-weight:700;flex:0 0 42px}.assetbody{min-width:0;flex:1}.assetname{font-size:15px;font-weight:650;line-height:1.22}.meta{font-size:12px;color:var(--muted);margin-top:3px}.right{text-align:right;min-width:94px}.value{font-size:15px;font-weight:650}.perf{font-size:12px;margin-top:3px}.actions{display:flex;gap:8px;margin:10px 0 0 54px}.small{min-height:34px;padding:0 11px;border:0;border-radius:9px;background:#f2f2f7;color:var(--blue);font:inherit}.delete{color:var(--red)}button{cursor:pointer}.add{width:100%;margin-top:10px;min-height:48px;border:0;border-radius:15px;background:var(--blue);color:white;font:600 15px inherit}.form{display:none;padding:16px;margin-top:10px}.form.open{display:block}.field{margin-bottom:12px}.field label{display:block;font-size:12px;color:var(--muted);margin:0 0 5px 3px}.field input{width:100%;min-height:46px;border:1px solid var(--line);border-radius:12px;background:#f9f9fb;padding:8px 12px;font:inherit;font-size:16px}.formactions{display:flex;gap:9px}.formactions button{flex:1;min-height:44px;border:0;border-radius:12px;font:600 15px inherit}.save{background:var(--blue);color:#fff}.cancel{background:#f2f2f7;color:var(--blue)}.historycard{padding:4px 16px}.historyrow{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}.historyrow:last-child{border:0}.chart{background:var(--card);border-radius:22px;padding:14px 12px 10px;margin-top:4px}.chart svg{width:100%;height:180px;display:block}.note{font-size:12px;color:var(--muted);padding:8px 3px;line-height:1.35}.empty{padding:18px;color:var(--muted);font-size:14px}.account{padding:16px;margin-bottom:18px}.account p{font-size:13px;color:var(--muted);margin:4px 0 13px}.account .message{min-height:18px;color:var(--red);margin-top:10px}.hidden{display:none!important}@media(max-width:520px){main{padding:15px 12px 28px}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.big{font-size:33px}.right{min-width:82px}}
-</style></head><body><main>
-<div class="nav"><div><div class="title">Portafoglio</div><div class="sub">Investimenti di tua figlia</div></div><button class="round hidden" id="topadd" aria-label="Aggiungi">＋</button></div>
-<section class="account" id="authbox"><div class="sectiontitle">Accedi per sincronizzare</div><p>Usa lo stesso indirizzo email su Safari e sull’app dalla schermata Home.</p><form id="authform"><div class="field"><label>Email</label><input id="email" type="email" autocomplete="email" required placeholder="nome@email.it"></div><div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password" required minlength="6" placeholder="Almeno 6 caratteri"></div><div class="formactions"><button class="save" type="submit">Accedi</button><button class="cancel" type="button" id="signup">Crea account</button></div><div class="message" id="authmessage"></div></form></section>
-<section class="account hidden" id="userbox"><div class="sectiontitle">Sincronizzato</div><p id="useremail"></p><button class="small" id="signout">Esci</button><span class="label" id="syncstatus"></span></section>
-<div id="app" class="hidden"><div class="hero"><div class="eyebrow">Valore totale</div><div class="big" id="total">€ 40.000,00</div><div class="gain positive" id="totalgain">+€ 0,00 · +0,00%</div><div class="stats"><div class="stat"><div class="label">Investito</div><b id="invested">€ 40.000,00</b></div><div class="stat"><div class="label">Guadagno</div><b id="profit">€ 0,00</b></div><div class="stat"><div class="label">Aggiornato</div><b id="updated">Oggi</b></div></div></div><section class="section"><div class="sectionhead"><div class="sectiontitle">Investimenti</div><div class="count" id="count">3 asset</div></div><div class="list" id="list"></div><button class="add" id="add">＋ Aggiungi investimento</button><div class="form" id="form"><form id="assetForm"><div class="field"><label>Nome investimento</label><input id="name" required placeholder="Es. ETF MSCI World"></div><div class="field"><label>Capitale investito (€)</label><input id="cost" required type="number" min="0" step="0.01" inputmode="decimal"></div><div class="field"><label>Valore attuale (€)</label><input id="value" required type="number" min="0" step="0.01" inputmode="decimal"></div><div class="formactions"><button class="save">Salva</button><button class="cancel" id="cancel" type="button">Annulla</button></div></form></div></section><section class="section"><div class="sectionhead"><div class="sectiontitle">Andamento</div><div class="count">Storico</div></div><div class="chart"><svg id="chart" viewBox="0 0 700 180" preserveAspectRatio="none"></svg></div></section><section class="section"><div class="sectionhead"><div class="sectiontitle">Storico mensile</div><button class="small" id="snapshot">＋ Salva mese</button></div><div class="historycard" id="history"></div><div class="note">Una valorizzazione mensile permette di seguire l'andamento del patrimonio nel tempo.</div></section></div></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
-// INCOLLA QUI i due valori della sezione Settings → API di Supabase.
-// La Publishable key è sicura in un sito pubblico. Non usare mai sb_secret o service_role.
-const SUPABASE_URL='https://aewhpuhonanfzdwhppnq.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY='sb_publishable_RlkLNvKtT03F0x0F2P2ySA_Gej6JIZx';
-const TABLE='portfolio_state', STATE_COLUMN='data', KEY='pf_figlia_v1';
-const initialState={assets:[{id:1,name:'ING Global Index Portfolio Conservative',cost:14000,value:14000},{id:2,name:'Amundi Cash Euro',cost:10000,value:10000},{id:3,name:'SISF QEP Global Quality',cost:16000,value:16000}],history:[{date:new Date().toISOString().slice(0,10),value:40000}]};
-const $=id=>document.getElementById(id), euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n), pct=n=>new Intl.NumberFormat('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n)+'%';let supabase,state,editing,user;
-function configured(){return !SUPABASE_URL.includes('INCOLLA_QUI')&&!SUPABASE_PUBLISHABLE_KEY.includes('INCOLLA_QUI')}
-function setMessage(s=''){ $('authmessage').textContent=s }
-function totals(){let i=state.assets.reduce((s,a)=>s+a.cost,0),v=state.assets.reduce((s,a)=>s+a.value,0);return{i,v,p:v-i,pct:i?(v-i)/i*100:0}}
-async function loadState(){const {data,error}=await supabase.from(TABLE).select(STATE_COLUMN).eq('user_id',user.id).maybeSingle();if(error)throw error;if(data?.[STATE_COLUMN])state=data[STATE_COLUMN];else{state=JSON.parse(localStorage.getItem(KEY)||'null')||structuredClone(initialState);await save()}render()}
-async function save(){localStorage.setItem(KEY,JSON.stringify(state));$('syncstatus').textContent='Sincronizzazione…';const row={user_id:user.id,[STATE_COLUMN]:state,updated_at:new Date().toISOString()};const {error}=await supabase.from(TABLE).upsert(row,{onConflict:'user_id'});$('syncstatus').textContent=error?'Errore di sincronizzazione':'Salvato';if(error)alert('Non riesco a salvare: '+error.message)}
-function render(){let t=totals();$('total').textContent=euro(t.v);$('totalgain').textContent=(t.p>=0?'+':'')+euro(t.p)+' · '+(t.pct>=0?'+':'')+pct(t.pct);$('totalgain').className='gain '+(t.p>=0?'positive':'negative');$('invested').textContent=euro(t.i);$('profit').textContent=euro(t.p);$('updated').textContent=new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});$('count').textContent=state.assets.length+' '+(state.assets.length===1?'asset':'asset');$('list').innerHTML=state.assets.length?'':'<div class="empty">Nessun investimento presente.</div>';state.assets.forEach(a=>{let p=a.value-a.cost,pp=a.cost?p/a.cost*100:0,d=document.createElement('div');d.className='asset';d.innerHTML='<div class="assetmain"><div class="icon"></div><div class="assetbody"><div class="assetname"></div><div class="meta">Investito '+euro(a.cost)+'</div></div><div class="right"><div class="value">'+euro(a.value)+'</div><div class="perf '+(p>=0?'positive':'negative')+'">'+(p>=0?'+':'')+euro(p)+' · '+(pp>=0?'+':'')+pct(pp)+'</div></div></div><div class="actions"><button class="small edit">Modifica</button><button class="small delete del">Elimina</button></div>';d.querySelector('.icon').textContent=a.name.charAt(0).toUpperCase();d.querySelector('.assetname').textContent=a.name;d.querySelector('.edit').onclick=()=>openForm(a);d.querySelector('.del').onclick=async()=>{state.assets=state.assets.filter(x=>x.id!==a.id);await save();render()};$('list').appendChild(d)});$('history').innerHTML=state.history.slice().reverse().map(h=>'<div class="historyrow"><span>'+new Date(h.date+'T00:00:00').toLocaleDateString('it-IT',{month:'long',year:'numeric'})+'</span><strong>'+euro(h.value)+'</strong></div>').join('');drawChart()}
-function drawChart(){let svg=$('chart'),h=state.history;if(h.length<2){svg.innerHTML='<text x="350" y="95" text-anchor="middle" fill="#8e8e93" font-size="14">Salva almeno due mesi per vedere l’andamento</text>';return}let vals=h.map(x=>x.value),min=Math.min(...vals),max=Math.max(...vals);if(max===min){min-=1;max+=1}let pts=h.map((x,i)=>[20+i*660/(h.length-1),155-(x.value-min)/(max-min)*130]),path=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');svg.innerHTML='<line x1="20" y1="155" x2="680" y2="155" stroke="#e5e5ea"/><path d="'+path+'" fill="none" stroke="#007aff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="'+pts.at(-1)[0]+'" cy="'+pts.at(-1)[1]+'" r="5" fill="#007aff"/>'}
-function openForm(a){editing=a||null;$('form').classList.add('open');$('name').value=a?.name||'';$('cost').value=a?.cost??'';$('value').value=a?.value??'';setTimeout(()=>$('name').focus(),0)}function closeForm(){$('form').classList.remove('open');$('assetForm').reset();editing=null}
-$('add').onclick=()=>openForm();$('topadd').onclick=()=>openForm();$('cancel').onclick=closeForm;$('assetForm').onsubmit=async e=>{e.preventDefault();let name=$('name').value.trim(),cost=Number($('cost').value),value=Number($('value').value);if(!name||cost<0||value<0)return;editing?Object.assign(editing,{name,cost,value}):state.assets.push({id:Date.now(),name,cost,value});await save();closeForm();render()};$('snapshot').onclick=async()=>{let t=totals(),today=new Date().toISOString().slice(0,10),i=state.history.findIndex(h=>h.date===today);i>=0?state.history[i].value=t.v:state.history.push({date:today,value:t.v});await save();render()};
-async function showSession(session){user=session?.user;if(!user){$('authbox').classList.remove('hidden');$('userbox').classList.add('hidden');$('app').classList.add('hidden');$('topadd').classList.add('hidden');return}$('authbox').classList.add('hidden');$('userbox').classList.remove('hidden');$('app').classList.remove('hidden');$('topadd').classList.remove('hidden');$('useremail').textContent=user.email;try{await loadState()}catch(e){$('syncstatus').textContent='Controlla la tabella';alert('Configurazione Supabase: '+e.message)}}
-$('authform').onsubmit=async e=>{e.preventDefault();setMessage('Accesso…');const {error}=await supabase.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});setMessage(error?error.message:'')};$('signup').onclick=async()=>{setMessage('Creazione account…');const {data,error}=await supabase.auth.signUp({email:$('email').value.trim(),password:$('password').value,options:{emailRedirectTo:location.href}});setMessage(error?error.message:(data.session?'Account creato.':'Controlla l’email e conferma l’account.'))};$('signout').onclick=()=>supabase.auth.signOut();
-if(!configured())setMessage('Prima inserisci Project URL e Publishable key nel file.');else{supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);supabase.auth.getSession().then(({data})=>showSession(data.session));supabase.auth.onAuthStateChange((_e,s)=>showSession(s))}if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-</script></body></html>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#18202a;background:#f4f5f7}
+*{box-sizing:border-box} body{margin:0}.app{max-width:1180px;margin:auto;padding:20px}
+header{padding:18px 4px 12px}.brand{font-size:28px;font-weight:800}.sub{color:#667085;margin-top:4px}
+.grid{display:grid;grid-template-columns:360px 1fr;gap:18px}
+.card{background:white;border:1px solid #e4e7ec;border-radius:16px;padding:18px;box-shadow:0 4px 18px #00000008}
+h2{font-size:16px;margin:0 0 14px} label{display:block;font-size:13px;font-weight:650;margin:12px 0 6px}
+input,select,button{width:100%;height:42px;border:1px solid #d0d5dd;border-radius:10px;padding:0 12px;font:inherit;background:white}
+button{cursor:pointer;font-weight:750}.primary{background:#18202a;color:white;border-color:#18202a;margin-top:16px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.small{font-size:12px;color:#667085}.status{margin-top:12px;font-size:13px;min-height:18px}
+#map{height:520px;border-radius:14px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.stat{background:#f8f9fb;border-radius:12px;padding:12px}.stat b{display:block;font-size:19px;margin-top:3px}
+.stop{border-top:1px solid #eaecf0;padding:13px 0}.stop:first-child{border-top:0}.stoptitle{font-weight:750}
+.badge{display:inline-block;background:#eef2f6;border-radius:999px;padding:4px 8px;font-size:11px;margin-left:6px}
+.hidden{display:none}@media(max-width:850px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}#map{height:430px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand">MINI Trip Planner <span style="font-size:12px;font-weight:700;opacity:.65">V3</span></div><div class="sub">Pianificazione di viaggi elettrici · build V3 · 7 settembre 2026</div></header>
+<div class="grid">
+<section class="card">
+<h2>Viaggio</h2>
+<label>Partenza</label><input id="from" value="Modena, Italia" placeholder="Es. Modena">
+<label>Arrivo</label><input id="to" value="Siena, Italia" placeholder="Es. Siena">
+
+<h2 style="margin-top:22px">Parametri auto</h2>
+<div class="row">
+<div><label>Batteria netta utilizzabile</label><input id="battery" type="number" value="29" min="1" step=".1"></div>
+<div><label>Consumo autostrada</label><input id="consumption" type="number" value="15" min="1" step=".1"></div>
+</div>
+<div class="row">
+<div><label>Velocità di riferimento</label><input id="speed" type="number" value="110" min="1" step="1"><span class="small">km/h</span></div>
+<div><label>Profilo</label><input value="MINI — 29 kWh / 50 kW DC" disabled></div>
+</div>
+<div class="row">
+<div><label>Carica partenza %</label><input id="startSoc" type="number" value="100" min="1" max="100"></div>
+<div><label>Riserva minima %</label><input id="reserveSoc" type="number" value="15" min="0" max="90"></div>
+</div>
+
+<h2 style="margin-top:22px">Ricarica</h2>
+<div class="row">
+<div><label>Potenza minima DC (opzionale)</label><input id="minPower" type="number" value="0" min="0" placeholder="0 = qualsiasi"></div>
+<div><label>Potenza max DC auto</label><input id="carMaxPower" type="number" value="50" min="1"><span class="small">kW</span></div></div><div class="row">
+<div><label>Arrivo desiderato alla ricarica %</label><input id="arrivalSoc" type="number" value="25" min="1" max="90"><span class="small">Obiettivo: arrivare alla colonnina con margine</span></div>
+<div><label>Ricarica target %</label><input id="targetSoc" type="number" value="75" min="1" max="100"></div>
+</div>
+<button class="primary" id="calc">CALCOLA VIAGGIO</button>
+<div class="status" id="status"></div>
+</section>
+
+<section>
+<div class="card"><div id="map"></div>
+<div class="stats">
+<div class="stat">Distanza<b id="distance">—</b></div>
+<div class="stat">Tempo guida<b id="drive">—</b></div>
+<div class="stat">Ricariche<b id="charges">—</b></div>
+<div class="stat">Arrivo<b id="arrival">—</b></div>
+</div></div>
+<div class="card" style="margin-top:18px"><h2>Piano di viaggio</h2><div id="plan" class="small">Inserisci partenza e arrivo e premi “Calcola viaggio”.</div></div>
+</section>
+</div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const map=L.map('map').setView([44.65,10.92],8);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);
+let routeLayer=null, markers=[];
+const $=id=>document.getElementById(id);
+function clearMap(){if(routeLayer)map.removeLayer(routeLayer);markers.forEach(m=>map.removeLayer(m));markers=[]}
+async function geocode(q){
+ const r=await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&accept-language=it&q='+encodeURIComponent(q));
+ if(!r.ok)throw Error('Errore geocoding');
+ const d=await r.json(); if(!d.length)throw Error('Località non trovata: '+q);
+ return {lat:+d[0].lat,lon:+d[0].lon,name:d[0].display_name};
+}
+async function route(a,b){
+ const u=`https://router.project-osrm.org/route/v1/driving/${a.lon},${a.lat};${b.lon},${b.lat}?overview=full&geometries=geojson`;
+ const r=await fetch(u); if(!r.ok)throw Error('Errore nel calcolo percorso');
+ const d=await r.json(); if(!d.routes?.length)throw Error('Percorso non trovato');
+ return d.routes[0];
+}
+async function chargers(points, minPower){
+ // Query Overpass around the corridor bounding box; then keep points close to route.
+ const lats=points.map(p=>p[1]), lons=points.map(p=>p[0]);
+ const s=Math.max(0,Math.min(...lats)-.12), n=Math.min(90,Math.max(...lats)+.12), w=Math.min(...lons)-.12, e=Math.max(...lons)+.12;
+ const q=`[out:json][timeout:25];(node["amenity"="charging_station"](${s},${w},${n},${e}););out;`;
+ const r=await fetch('https://overpass-api.de/api/interpreter',{method:'POST',body:q});
+ if(!r.ok)return [];
+ const d=await r.json();
+ return d.elements.map(x=>({lat:x.lat,lon:x.lon,tags:x.tags||{}})).map(x=>{
+  const t=x.tags, raw=t.capacity || t["capacity:charging"] || t["capacity:dc"] || "";
+  const vals=String(raw).match(/\\d+(?:[.,]\\d+)?/g)||[];
+  const powers=vals.map(v=>+v.replace(",",".")).filter(v=>v>0&&v<1000);
+  const p=+(t["maxpower"]||t["maxpower:dc"]||t["capacity:kw"]||powers[0]||0);
+  x.power=p; return x;
+}).filter(x=>!minPower || x.power>=minPower);
+}
+function hav(a,b){const R=6371, p=Math.PI/180; const dlat=(b[1]-a[1])*p,dlon=(b[0]-a[0])*p;const x=Math.sin(dlat/2)**2+Math.cos(a[1]*p)*Math.cos(b[1]*p)*Math.sin(dlon/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
+function fmtTime(sec){let m=Math.round(sec/60),h=Math.floor(m/60);m%=60;return h?`${h}h ${m}m`:`${m} min`}
+function nearestDistance(pt, line){let best=1e9;for(const p of line){best=Math.min(best,hav(pt,p))}return best}
+function planStops(totalKm, line, cs, battery, cons, start, min, target, desired, carMaxPower){
+ const ordered=cs.map(c=>({c,d:nearestDistance([c.lon,c.lat],line),along:line.reduce((acc,p,i)=>acc+(i?hav(line[i-1],p):0),0)}))
+ .filter(x=>x.d<2.5).sort((a,b)=>a.along-b.along);
+ const stops=[]; let pos=0, soc=start;
+ const reachKm=(fromSoc,toSoc)=>Math.max(0,battery*(fromSoc-toSoc)/100/cons*100);
+ while(totalKm-pos>1){
+   const candidates=ordered.filter(x=>x.along>pos+15 && x.along<=pos+reachKm(soc,min));
+   if(!candidates.length) break;
+   let chosen=null,best=1e9;
+   for(const x of candidates){
+     const km=x.along-pos, arrival=soc-km*cons/battery;
+     const alternatives=ordered.filter(y=>y!==x && y.along>x.along+3 &&
+       (y.along-x.along)<=reachKm(target,min));
+     const powerBonus=x.c.power?Math.min(x.c.power,carMaxPower)/50:0; const score=(alternatives.length?0:1000)+Math.abs(arrival-desired)+Math.max(0,desired-arrival)*2-powerBonus;
+     if(score<best){best=score;chosen={...x,arrival,alternatives};}
+   }
+   const add=Math.max(0,target-chosen.arrival);
+   stops.push({c:chosen.c,km:chosen.along,arrival:chosen.arrival,chargeTo:target,add,
+     safe:chosen.alternatives.length>0,alternatives:chosen.alternatives.length});
+   pos=chosen.along; soc=target;
+   ordered.splice(ordered.indexOf(chosen),1);
+   if(stops.length>20) break;
+ }
+ return {stops,arrivalSoc:soc-(totalKm-pos)*cons/battery};
+}
+async function calculate(){
+ const status=$('status'); status.textContent='Calcolo percorso e ricerca delle stazioni…';
+ $('plan').innerHTML=''; clearMap();
+ try{
+  const a=await geocode($('from').value), b=await geocode($('to').value);
+  const rt=await route(a,b), totalKm=rt.distance/1000, line=rt.geometry.coordinates.map(p=>[p[1],p[0]]);
+  L.polyline(line,{weight:5}).addTo(map); routeLayer=map._layers[Object.keys(map._layers).pop()];
+  const ma=L.marker([a.lat,a.lon]).addTo(map).bindPopup('Partenza').openPopup();
+  const mb=L.marker([b.lat,b.lon]).addTo(map).bindPopup('Arrivo');markers.push(ma,mb);
+  map.fitBounds(L.latLngBounds(line),{padding:[25,25]});
+  let cs=[];
+  try{cs=await chargers(line,+$('minPower').value)}catch(e){}
+  const battery=+$('battery').value, cons=+$('consumption').value, start=+$('startSoc').value, min=+$('reserveSoc').value, target=+$('targetSoc').value, desired=+$('arrivalSoc').value, carMaxPower=+$('carMaxPower').value, speed=+$('speed').value;
+  if(![battery,cons,start,min,target,desired,carMaxPower,speed].every(Number.isFinite)) throw Error('Controlla i parametri dell’auto e della ricarica.');
+  const p=planStops(totalKm,line,cs,battery,cons,start,min,target,desired,carMaxPower);
+  $('distance').textContent=totalKm.toFixed(0)+' km'; $('drive').textContent=fmtTime(totalKm/speed*3600);
+  $('charges').textContent=p.stops.length; $('arrival').textContent=Math.max(0,p.arrivalSoc).toFixed(0)+'%';
+  const totalEnergy=totalKm*cons/100; let html=`<div><b>${a.name.split(',')[0]} → ${b.name.split(',')[0]}</b></div><div class="small" style="margin-top:6px">Profilo MINI: ${battery} kWh netti · ${cons} kWh/100 km · ${speed} km/h · DC max ${carMaxPower} kW</div><div class="small" style="margin-top:4px">Energia teorica per la tratta: ~${totalEnergy.toFixed(1)} kWh</div>`;
+  if(!p.stops.length) html+=`<p>Nessuna sosta necessaria secondo i parametri impostati. Batteria stimata all'arrivo: <b>${Math.max(0,p.arrivalSoc).toFixed(0)}%</b>.</p>`;
+  else p.stops.forEach((s,i)=>{
+    const name=s.c.tags.name||'Stazione DC'; const operator=s.c.tags.operator||'Operatore non specificato'; const stationPower=s.c.power||0; const usablePower=stationPower?Math.min(stationPower,carMaxPower):carMaxPower; const hours=s.add*usablePower>0?s.add/usablePower:0;
+    const safety=s.safe?'Alternativa raggiungibile':'Nessuna alternativa rilevata'; html+=`<div class="stop"><div class="stoptitle">Ricarica ${i+1} <span class="badge">${name}</span></div><div class="small">${operator} · circa ${s.km.toFixed(0)} km · arrivo ${s.arrival.toFixed(0)}% → ${s.chargeTo}% · ${stationPower?stationPower+' kW colonnina · ':''}${usablePower.toFixed(0)} kW utilizzabili · ~${Math.round(hours*60)} min · ${safety}</div></div>`;
+    const m=L.marker([s.c.lat,s.c.lon]).addTo(map).bindPopup(`<b>${name}</b><br>DC ${stationPower?stationPower+' kW':'potenza non indicata'}<br>Arrivo ~${s.arrival.toFixed(0)}% → ${s.chargeTo}%`);markers.push(m);
+  });
+  $('plan').innerHTML=html; status.textContent=`Test Modena–Siena: ${cs.length} stazioni DC individuate. MINI max ${carMaxPower} kW; obiettivo ${desired}% alla sosta; riserva ${min}%.`;
+ }catch(e){status.textContent=e.message||'Si è verificato un errore.';console.error(e)}
+}
+$('calc').onclick=calculate;
+</script>
+</body></html>
